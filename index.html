@@ -33,6 +33,12 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
         <div class="container hero-content">
             <p class="hero-greeting">Hello, I'm</p>
             <h1 class="hero-name">Surya Kant</h1>
@@ -64,17 +70,113 @@
                     reliability and performance. Passionate about system design, problem-solving, and continuous learning.
                 </p>
                 <div class="about-highlights">
-                    <div class="highlight-item">
+                    <div class="highlight-item expandable" data-target="experience-timeline">
                         <span class="highlight-number">5+</span>
                         <span class="highlight-label">Years Experience</span>
+                        <span class="expand-icon">▼</span>
                     </div>
-                    <div class="highlight-item">
+                    <div class="highlight-item expandable" data-target="organizations-timeline">
                         <span class="highlight-number">3</span>
                         <span class="highlight-label">Major Organizations</span>
+                        <span class="expand-icon">▼</span>
                     </div>
-                    <div class="highlight-item">
+                    <div class="highlight-item expandable" data-target="technologies-timeline">
                         <span class="highlight-number">10+</span>
                         <span class="highlight-label">Technologies Mastered</span>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                
+                <!-- Expandable Content -->
+                <div class="expandable-content" id="experience-timeline">
+                    <div class="timeline-horizontal">
+                        <div class="timeline-item">
+                            <div class="timeline-year">2021</div>
+                            <div class="timeline-content">
+                                <h4>Started Journey</h4>
+                                <p>Joined Reliance Jio as Java Backend Developer</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2023</div>
+                            <div class="timeline-content">
+                                <h4>Growth at Capgemini</h4>
+                                <p>Advanced to senior role with enterprise solutions</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2024</div>
+                            <div class="timeline-content">
+                                <h4>Goldman Sachs</h4>
+                                <p>Currently building financial solutions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="expandable-content" id="organizations-timeline">
+                    <div class="timeline-horizontal">
+                        <div class="timeline-item">
+                            <div class="timeline-company">Reliance Jio</div>
+                            <div class="timeline-content">
+                                <h4>2021-2023</h4>
+                                <p>Microservices & BPM implementation</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-company">Capgemini</div>
+                            <div class="timeline-content">
+                                <h4>2023-2024</h4>
+                                <p>Enterprise solutions & cloud migration</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-company">Goldman Sachs</div>
+                            <div class="timeline-content">
+                                <h4>2024-Present</h4>
+                                <p>Financial systems & high-performance backend</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="expandable-content" id="technologies-timeline">
+                    <div class="timeline-horizontal">
+                        <div class="timeline-item">
+                            <div class="timeline-tech">Java</div>
+                            <div class="timeline-content">
+                                <h4>Core Language</h4>
+                                <p>Enterprise applications & microservices</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-tech">Spring Boot</div>
+                            <div class="timeline-content">
+                                <h4>Framework</h4>
+                                <p>REST APIs & service development</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-tech">Azure</div>
+                            <div class="timeline-content">
+                                <h4>Cloud Platform</h4>
+                                <p>Deployment & infrastructure</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-tech">Microservices</div>
+                            <div class="timeline-content">
+                                <h4>Architecture</h4>
+                                <p>Distributed systems design</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-tech">SQL</div>
+                            <div class="timeline-content">
+                                <h4>Database</h4>
+                                <p>Data modeling & optimization</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -86,87 +188,103 @@
         <div class="container">
             <h2 class="section-title">Professional Experience</h2>
             <div class="timeline">
+            <div class="timeline">
                 <!-- Goldman Sachs -->
-                <div class="timeline-item">
+                <div class="timeline-item expandable">
                     <div class="timeline-marker"></div>
-                    <div class="timeline-content">
+                    <div class="timeline-content compact">
                         <div class="timeline-header">
                             <h3 class="company-name">Goldman Sachs</h3>
                             <span class="timeline-period">Jan 2024 – Present</span>
+                            <span class="expand-icon">▼</span>
                         </div>
                         <h4 class="role-title">Java Backend Developer</h4>
                         <p class="role-description">
-                            Engineering financial solutions with focus on high-performance, low-latency systems. 
-                            Contributing to critical backend services that handle large-scale transaction processing.
+                            Engineering financial solutions with focus on high-performance, low-latency systems.
                         </p>
-                        <ul class="role-responsibilities">
-                            <li>Designing and implementing microservices for financial transaction processing</li>
-                            <li>Optimizing system performance for low-latency requirements</li>
-                            <li>Collaborating with cross-functional teams on system architecture decisions</li>
-                            <li>Ensuring code quality through rigorous testing and code reviews</li>
-                        </ul>
                         <div class="tech-tags">
                             <span class="tech-tag">Java</span>
                             <span class="tech-tag">Spring Boot</span>
                             <span class="tech-tag">Microservices</span>
                             <span class="tech-tag">System Design</span>
                         </div>
+                        <div class="timeline-details">
+                            <p class="role-description-full">
+                                Contributing to critical backend services that handle large-scale transaction processing.
+                            </p>
+                            <ul class="role-responsibilities">
+                                <li>Designing and implementing microservices for financial transaction processing</li>
+                                <li>Optimizing system performance for low-latency requirements</li>
+                                <li>Collaborating with cross-functional teams on system architecture decisions</li>
+                                <li>Ensuring code quality through rigorous testing and code reviews</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Capgemini -->
-                <div class="timeline-item">
+                <div class="timeline-item expandable">
                     <div class="timeline-marker"></div>
-                    <div class="timeline-content">
+                    <div class="timeline-content compact">
                         <div class="timeline-header">
                             <h3 class="company-name">Capgemini</h3>
                             <span class="timeline-period">2023 – 2024</span>
+                            <span class="expand-icon">▼</span>
                         </div>
                         <h4 class="role-title">Java Backend Developer</h4>
                         <p class="role-description">
-                            Developed enterprise solutions for clients across various domains, focusing on scalable 
-                            backend architectures and cloud integration.
+                            Developed enterprise solutions for clients across various domains, focusing on scalable backend architectures.
                         </p>
-                        <ul class="role-responsibilities">
-                            <li>Built RESTful APIs and microservices for enterprise clients</li>
-                            <li>Implemented cloud-native solutions using Azure services</li>
-                            <li>Participated in system design discussions and architecture reviews</li>
-                            <li>Mentored junior developers on best practices and code standards</li>
-                        </ul>
                         <div class="tech-tags">
                             <span class="tech-tag">Java</span>
                             <span class="tech-tag">Spring Boot</span>
                             <span class="tech-tag">Azure</span>
                             <span class="tech-tag">SQL</span>
                         </div>
+                        <div class="timeline-details">
+                            <p class="role-description-full">
+                                Focusing on scalable backend architectures and cloud integration.
+                            </p>
+                            <ul class="role-responsibilities">
+                                <li>Built RESTful APIs and microservices for enterprise clients</li>
+                                <li>Implemented cloud-native solutions using Azure services</li>
+                                <li>Participated in system design discussions and architecture reviews</li>
+                                <li>Mentored junior developers on best practices and code standards</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Reliance Jio -->
-                <div class="timeline-item">
+                <div class="timeline-item expandable">
                     <div class="timeline-marker"></div>
-                    <div class="timeline-content">
+                    <div class="timeline-content compact">
                         <div class="timeline-header">
                             <h3 class="company-name">Reliance Jio</h3>
                             <span class="timeline-period">July 2021 – 2023</span>
+                            <span class="expand-icon">▼</span>
                         </div>
                         <h4 class="role-title">Java Backend Developer</h4>
                         <p class="role-description">
-                            Contributed to backend systems serving millions of users. Worked on business process 
-                            automation and microservices development.
+                            Contributed to backend systems serving millions of users. Worked on business process automation.
                         </p>
-                        <ul class="role-responsibilities">
-                            <li>Developed microservices for telecom business processes</li>
-                            <li>Implemented workflow automation using Camunda BPM</li>
-                            <li>Designed and optimized database schemas and SQL queries</li>
-                            <li>Deployed and maintained services on Azure cloud infrastructure</li>
-                        </ul>
                         <div class="tech-tags">
                             <span class="tech-tag">Java</span>
                             <span class="tech-tag">Camunda</span>
                             <span class="tech-tag">Microservices</span>
                             <span class="tech-tag">SQL</span>
                             <span class="tech-tag">Azure</span>
+                        </div>
+                        <div class="timeline-details">
+                            <p class="role-description-full">
+                                Worked on business process automation and microservices development.
+                            </p>
+                            <ul class="role-responsibilities">
+                                <li>Developed microservices for telecom business processes</li>
+                                <li>Implemented workflow automation using Camunda BPM</li>
+                                <li>Designed and optimized database schemas and SQL queries</li>
+                                <li>Deployed and maintained services on Azure cloud infrastructure</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -262,34 +380,41 @@
             <h2 class="section-title">Featured Projects</h2>
             <div class="projects-grid">
                 <!-- Medha Android App -->
-                <div class="project-card featured">
-                    <div class="project-badge">Featured</div>
+                <div class="project-card featured expandable">
+                    <div class="project-header">
+                        <div class="project-badge">Featured</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
                     <h3 class="project-title">Medha - Micro-Learning Android App</h3>
                     <p class="project-description">
                         A fully functional micro-learning Android application designed to deliver bite-sized 
-                        educational content. Built entirely using structured prompting with Claude Sonnet, 
-                        demonstrating advanced prompt engineering skills and end-to-end app development.
+                        educational content. Built entirely using structured prompting with Claude Sonnet.
                     </p>
-                    <div class="project-highlights">
-                        <h4 class="highlights-title">Key Highlights:</h4>
-                        <ul class="highlights-list">
-                            <li>Built complete Android app using AI-assisted development (Claude Sonnet)</li>
-                            <li>Mastered structured prompting and iterative development techniques</li>
-                            <li>Learned full-stack mobile app development end-to-end</li>
-                            <li>Implemented user-friendly micro-learning interface</li>
-                            <li>Published and functional application</li>
-                        </ul>
-                    </div>
                     <div class="project-tech">
                         <span class="tech-tag">Android</span>
                         <span class="tech-tag">Java/Kotlin</span>
                         <span class="tech-tag">AI-Assisted Development</span>
                         <span class="tech-tag">Prompt Engineering</span>
                     </div>
+                    <div class="project-details">
+                        <div class="project-highlights">
+                            <h4 class="highlights-title">Key Highlights:</h4>
+                            <ul class="highlights-list">
+                                <li>Built complete Android app using AI-assisted development (Claude Sonnet)</li>
+                                <li>Mastered structured prompting and iterative development techniques</li>
+                                <li>Learned full-stack mobile app development end-to-end</li>
+                                <li>Implemented user-friendly micro-learning interface</li>
+                                <li>Published and functional application</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Enterprise Microservices (Placeholder) -->
-                <div class="project-card">
+                <div class="project-card expandable">
+                    <div class="project-header">
+                        <span class="expand-icon">▼</span>
+                    </div>
                     <h3 class="project-title">Enterprise Microservices Architecture</h3>
                     <p class="project-description">
                         Designed and implemented scalable microservices architecture for enterprise clients, 
@@ -301,10 +426,18 @@
                         <span class="tech-tag">Azure</span>
                         <span class="tech-tag">Docker</span>
                     </div>
+                    <div class="project-details">
+                        <p class="project-description-full">
+                            This project involved creating a comprehensive microservices ecosystem that could handle millions of transactions daily with sub-second response times.
+                        </p>
+                    </div>
                 </div>
 
                 <!-- Business Process Automation (Placeholder) -->
-                <div class="project-card">
+                <div class="project-card expandable">
+                    <div class="project-header">
+                        <span class="expand-icon">▼</span>
+                    </div>
                     <h3 class="project-title">Business Process Automation Platform</h3>
                     <p class="project-description">
                         Developed workflow automation solutions using Camunda BPM, streamlining complex 
@@ -315,6 +448,11 @@
                         <span class="tech-tag">Java</span>
                         <span class="tech-tag">SQL</span>
                         <span class="tech-tag">REST APIs</span>
+                    </div>
+                    <div class="project-details">
+                        <p class="project-description-full">
+                            Implemented automated workflows that transformed manual business processes into efficient digital systems, significantly improving operational efficiency and reducing processing times.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -327,12 +465,16 @@
             <h2 class="section-title">Academic Background</h2>
             <div class="education-content">
                 <!-- Bachelor's Degree -->
-                <div class="education-item">
-                    <div class="education-icon">🎓</div>
-                    <div class="education-details">
+                <div class="education-item expandable">
+                    <div class="education-header">
+                        <div class="education-icon">🎓</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="education-summary">
                         <h3 class="degree-title">Bachelor of Technology in Computer Science</h3>
-                        <p class="institution">Graduated 2019</p>
-                        <p class="education-grade">CGPA: 8.4/10</p>
+                        <p class="institution">Graduated 2019 • CGPA: 8.4/10</p>
+                    </div>
+                    <div class="education-details">
                         <p class="education-description">
                             Strong foundation in computer science fundamentals including algorithms, 
                             data structures, database systems, and software engineering principles.
@@ -341,11 +483,16 @@
                 </div>
 
                 <!-- CDAC Program -->
-                <div class="education-item">
-                    <div class="education-icon">💻</div>
-                    <div class="education-details">
+                <div class="education-item expandable">
+                    <div class="education-header">
+                        <div class="education-icon">💻</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="education-summary">
                         <h3 class="degree-title">CDAC Program (Advanced Computing)</h3>
                         <p class="institution">Completed 2020</p>
+                    </div>
+                    <div class="education-details">
                         <p class="education-description">
                             Intensive program focused on advanced computing concepts, software development, 
                             and enterprise technologies. Completed online during COVID-19 pandemic.
@@ -354,10 +501,15 @@
                 </div>
 
                 <!-- Academic Background -->
-                <div class="education-item">
-                    <div class="education-icon">📚</div>
-                    <div class="education-details">
+                <div class="education-item expandable">
+                    <div class="education-header">
+                        <div class="education-icon">📚</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="education-summary">
                         <h3 class="degree-title">Science Background</h3>
+                    </div>
+                    <div class="education-details">
                         <p class="education-description">
                             Science stream student with strong analytical and problem-solving foundation, 
                             which translates directly to engineering and system design thinking.
