@@ -747,7 +747,7 @@ a:hover {
 .hero-gallery-track {
     display: flex;
     height: 100%;
-    animation: heroGallerySlide 40s linear infinite;
+    animation: heroGallerySlide 80s linear infinite;
 }
 
 .hero-gallery-slide {
@@ -770,7 +770,7 @@ a:hover {
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-2400px); /* 6 slides * 400px */
+        transform: translateX(-3200px); /* 8 slides * 400px for seamless loop */
     }
 }
 
@@ -2150,27 +2150,46 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 217, 61, 0.05) 100%);
+    border: 2px solid rgba(255, 107, 53, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .achievement-logo,
 .education-logo {
-    width: 100%;
-    height: 100%;
+    width: 85%;
+    height: 85%;
     object-fit: contain;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    border-radius: 50%;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
     transition: all 0.3s ease;
+}
+
+.achievement-card:hover .achievement-logo-container,
+.education-card:hover .education-logo-container {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
 }
 
 .achievement-card:hover .achievement-logo,
 .education-card:hover .education-logo {
     transform: scale(1.1);
-    filter: drop-shadow(0 6px 12px rgba(255, 107, 53, 0.4));
+    filter: drop-shadow(0 4px 8px rgba(255, 107, 53, 0.3));
 }
 
 .fallback-icon {
-    display: none;
+    display: none !important;
     font-size: 3rem;
     margin: 0;
+}
+
+/* Only show fallback when explicitly set via onerror */
+.fallback-icon.show {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
 }
 
 .achievement-icon {
