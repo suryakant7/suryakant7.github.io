@@ -102,83 +102,15 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add shadow when scrolled
         if (scrollTop > 50) {
-            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.15)';
+            navbar.style.boxShadow = '0 2px 20px rgba(255, 107, 53, 0.3)';
         } else {
-            navbar.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
         }
         
         lastScrollTop = scrollTop;
     });
     
-    // ===================================
-    // EXPANDABLE ABOUT HIGHLIGHTS
-    // ===================================
-    const expandableItems = document.querySelectorAll('.highlight-item.expandable');
-    
-    expandableItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const targetId = this.getAttribute('data-target');
-            const targetContent = document.getElementById(targetId);
-            
-            // Close all other expanded items
-            expandableItems.forEach(otherItem => {
-                if (otherItem !== this) {
-                    otherItem.classList.remove('expanded');
-                    const otherTargetId = otherItem.getAttribute('data-target');
-                    const otherContent = document.getElementById(otherTargetId);
-                    if (otherContent) {
-                        otherContent.classList.remove('expanded');
-                    }
-                }
-            });
-            
-            // Toggle current item
-            this.classList.toggle('expanded');
-            if (targetContent) {
-                targetContent.classList.toggle('expanded');
-            }
-        });
-    });
-    
-    // ===================================
-    // EXPANDABLE TIMELINE ITEMS
-    // ===================================
-    const timelineItems = document.querySelectorAll('.timeline-item.expandable');
-    
-    timelineItems.forEach(item => {
-        const header = item.querySelector('.timeline-header');
-        const content = item.querySelector('.timeline-content');
-        
-        header.addEventListener('click', function() {
-            content.classList.toggle('expanded');
-        });
-    });
-    
-    // ===================================
-    // EXPANDABLE PROJECT CARDS
-    // ===================================
-    const projectCards = document.querySelectorAll('.project-card.expandable');
-    
-    projectCards.forEach(card => {
-        const header = card.querySelector('.project-header');
-        
-        header.addEventListener('click', function() {
-            card.classList.toggle('expanded');
-        });
-    });
-    
-    // ===================================
-    // EXPANDABLE EDUCATION ITEMS
-    // ===================================
-    const educationItems = document.querySelectorAll('.education-item.expandable');
-    
-    educationItems.forEach(item => {
-        const header = item.querySelector('.education-header');
-        
-        header.addEventListener('click', function() {
-            item.classList.toggle('expanded');
-        });
-    });
+    // Note: Expandable sections are now handled by enhancements.js
     
     // ===================================
     // ACTIVE NAVIGATION LINK HIGHLIGHTING
