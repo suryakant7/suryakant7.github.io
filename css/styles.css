@@ -815,19 +815,27 @@ a:hover {
     flex-wrap: wrap;
 }
 
-/* Highlights Row - Side by Side */
-.highlights-row {
+/* Highlights Container - Tiles Side by Side, Expandables Below Each */
+.highlights-container {
     display: flex;
     justify-content: center;
-    align-items: stretch;
+    align-items: flex-start;
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
 }
 
-.highlights-row .highlight-item {
+.highlight-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     flex: 1;
     max-width: 280px;
     min-width: 180px;
+}
+
+.highlight-wrapper .expandable-content {
+    width: 100%;
+    margin-top: 0;
 }
 
 .highlight-item {
@@ -841,6 +849,7 @@ a:hover {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    width: 100%;
 }
 
 .highlight-item.expandable {
@@ -3284,14 +3293,16 @@ body.mouse-active::after {
     }
     
     /* About Highlights Mobile */
-    .highlights-row {
+    .highlights-container {
         flex-direction: column;
         gap: var(--spacing-sm);
+        align-items: center;
     }
     
-    .highlights-row .highlight-item {
+    .highlight-wrapper {
         max-width: 100%;
         min-width: auto;
+        width: 100%;
     }
     
     .about-highlights {
