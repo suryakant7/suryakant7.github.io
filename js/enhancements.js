@@ -110,6 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Don't expand if clicking on a tech tag
                 if (e.target.classList.contains('tech-tag')) return;
                 
+                e.stopPropagation();
+                
                 // Close other items
                 timelineItems.forEach(otherItem => {
                     if (otherItem !== item) {
@@ -119,6 +121,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Toggle current item
                 item.classList.toggle('expanded');
+                
+                // Position in view if expanded
+                if (item.classList.contains('expanded')) {
+                    const details = item.querySelector('.timeline-details');
+                    if (details) {
+                        positionExpandedContent(item, details);
+                    }
+                }
             });
         }
     });
@@ -144,6 +154,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Don't expand if clicking on a tech tag
                 if (e.target.classList.contains('tech-tag')) return;
                 
+                e.stopPropagation();
+                
                 // Close other cards
                 projectCards.forEach(otherCard => {
                     if (otherCard !== card) {
@@ -164,6 +176,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     details.style.maxHeight = details.scrollHeight + 50 + 'px';
                     details.style.opacity = '1';
                     details.style.paddingTop = 'var(--spacing-md)';
+                    
+                    // Position card in view
+                    positionExpandedContent(card, details);
                     
                     // Animate highlights
                     const highlights = details.querySelectorAll('.highlights-list li');
@@ -189,7 +204,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const details = card.querySelector('.education-details');
         
         if (details) {
-            card.addEventListener('click', function() {
+            card.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
                 // Close other cards
                 educationCards.forEach(otherCard => {
                     if (otherCard !== card) {
@@ -199,6 +216,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Toggle current card
                 card.classList.toggle('expanded');
+                
+                // Position details relative to card
+                if (card.classList.contains('expanded')) {
+                    positionExpandedContent(card, details);
+                }
             });
         }
     });
@@ -212,7 +234,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const details = card.querySelector('.achievement-details');
         
         if (details) {
-            card.addEventListener('click', function() {
+            card.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
                 // Close other cards
                 achievementCards.forEach(otherCard => {
                     if (otherCard !== card) {
@@ -222,9 +246,60 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Toggle current card
                 card.classList.toggle('expanded');
+                
+                // Position details relative to card
+                if (card.classList.contains('expanded')) {
+                    positionExpandedContent(card, details);
+                }
             });
         }
     });
+    
+    // ===================================
+    // CLOSE EXPANDED CARDS ON SCROLL
+    // ===================================
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            // Close all expanded cards
+            document.querySelectorAll('.expandable.expanded').forEach(card => {
+                card.classList.remove('expanded');
+            });
+            
+            // Close expanded highlights content
+            document.querySelectorAll('.expandable-content.expanded').forEach(content => {
+                content.classList.remove('expanded');
+            });
+        }, 100); // Small delay to avoid triggering on minor scrolls
+    });
+    
+    // ===================================
+    // CLOSE EXPANDED CARDS ON OUTSIDE CLICK
+    // ===================================
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.expandable')) {
+            document.querySelectorAll('.expandable.expanded').forEach(card => {
+                card.classList.remove('expanded');
+            });
+        }
+    });
+    
+    // ===================================
+    // HELPER FUNCTION TO POSITION EXPANDED CONTENT
+    // ===================================
+    function positionExpandedContent(card, details) {
+        // This ensures the details stay within the card
+        // The CSS handles the positioning, this is for any dynamic adjustments
+        const cardRect = card.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        
+        // Check if card is too close to bottom
+        if (cardRect.bottom > viewportHeight * 0.8) {
+            // Scroll card into view smoothly
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
     
     // ===================================
     // 7. TECH TAGS & SKILL ITEMS - TOOLTIP ON CLICK
@@ -358,6 +433,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Update tooltip position on scroll
+    let tooltipTrigger = null;
+    window.addEventListener('scroll', function() {
+        if (activeTooltip && tooltipTrigger) {
+            const rect = tooltipTrigger.getBoundingClientRect();
+            const tooltipRect = activeTooltip.getBoundingClientRect();
+            
+            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+            let top = rect.bottom + 10;
+            
+            // Keep within viewport
+            if (left < 10) left = 10;
+            if (left + tooltipRect.width > window.innerWidth - 10) {
+                left = window.innerWidth - tooltipRect.width - 10;
+            }
+            if (top + tooltipRect.height > window.innerHeight - 10 || rect.top < 0 || rect.bottom > window.innerHeight) {
+                // Close tooltip if trigger is out of view
+                removeTooltip();
+                tooltipTrigger = null;
+                return;
+            }
+            
+            activeTooltip.style.left = left + 'px';
+            activeTooltip.style.top = top + 'px';
+        }
+    }, { passive: true });
+    
     // Add click handlers to tech tags
     document.querySelectorAll('.tech-tag').forEach(tag => {
         tag.addEventListener('click', function(e) {
@@ -366,7 +468,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (this.classList.contains('active')) {
                 removeTooltip();
+                tooltipTrigger = null;
             } else {
+                tooltipTrigger = this;
                 showTechTooltip(this, tagName);
             }
         });
@@ -380,7 +484,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (this.classList.contains('active')) {
                 removeTooltip();
+                tooltipTrigger = null;
             } else {
+                tooltipTrigger = this;
                 showTechTooltip(this, tagName);
             }
         });
@@ -392,6 +498,7 @@ document.addEventListener('DOMContentLoaded', function() {
             !e.target.classList.contains('skill-item') &&
             !e.target.closest('.tech-tooltip')) {
             removeTooltip();
+            tooltipTrigger = null;
         }
     });
     

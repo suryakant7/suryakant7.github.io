@@ -297,6 +297,100 @@ function isInViewport(element) {
 }
 
 // ===================================
+// PHILOSOPHY CARD STACK
+// ===================================
+const philosophyCards = document.querySelectorAll('.philosophy-card');
+const philosophyDotsContainer = document.querySelector('.philosophy-dots');
+const philosophyPrevBtn = document.querySelector('.philosophy-prev');
+const philosophyNextBtn = document.querySelector('.philosophy-next');
+
+if (philosophyCards.length > 0) {
+    let currentPhilosophyIndex = 0;
+    
+    // Create dots
+    philosophyCards.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('philosophy-dot');
+        dot.setAttribute('aria-label', `Go to card ${index + 1}`);
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToPhilosophyCard(index));
+        philosophyDotsContainer.appendChild(dot);
+    });
+    
+    const philosophyDots = document.querySelectorAll('.philosophy-dot');
+    const totalCards = philosophyCards.length;
+    
+    function updatePhilosophyCards() {
+        philosophyCards.forEach((card, index) => {
+            // Calculate relative position with wrap-around
+            let relativePos = index - currentPhilosophyIndex;
+            
+            // Wrap positions for circular navigation
+            if (relativePos > totalCards / 2) relativePos -= totalCards;
+            if (relativePos < -totalCards / 2) relativePos += totalCards;
+            
+            if (relativePos === 0) {
+                card.setAttribute('data-state', 'active');
+            } else if (relativePos === 1 || relativePos === -(totalCards - 1)) {
+                card.setAttribute('data-state', 'next');
+            } else if (relativePos === -1 || relativePos === (totalCards - 1)) {
+                card.setAttribute('data-state', 'prev');
+            } else if (relativePos > 0) {
+                card.setAttribute('data-state', 'next-2');
+            } else {
+                card.setAttribute('data-state', 'hidden');
+            }
+        });
+        
+        // Update dots
+        philosophyDots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentPhilosophyIndex);
+        });
+    }
+    
+    function goToPhilosophyCard(index) {
+        currentPhilosophyIndex = index;
+        updatePhilosophyCards();
+    }
+    
+    function nextPhilosophyCard() {
+        currentPhilosophyIndex = (currentPhilosophyIndex + 1) % philosophyCards.length;
+        updatePhilosophyCards();
+    }
+    
+    function prevPhilosophyCard() {
+        currentPhilosophyIndex = (currentPhilosophyIndex - 1 + philosophyCards.length) % philosophyCards.length;
+        updatePhilosophyCards();
+    }
+    
+    if (philosophyPrevBtn) {
+        philosophyPrevBtn.addEventListener('click', prevPhilosophyCard);
+    }
+    
+    if (philosophyNextBtn) {
+        philosophyNextBtn.addEventListener('click', nextPhilosophyCard);
+    }
+    
+    // Initialize
+    updatePhilosophyCards();
+    
+    // Auto-rotate every 5 seconds
+    let philosophyAutoRotate = setInterval(nextPhilosophyCard, 5000);
+    
+    // Pause auto-rotate on hover
+    const philosophyContainer = document.querySelector('.philosophy-stack-container');
+    if (philosophyContainer) {
+        philosophyContainer.addEventListener('mouseenter', () => {
+            clearInterval(philosophyAutoRotate);
+        });
+        
+        philosophyContainer.addEventListener('mouseleave', () => {
+            philosophyAutoRotate = setInterval(nextPhilosophyCard, 5000);
+        });
+    }
+}
+
+// ===================================
 // SCROLL TO TOP BUTTON
 // ===================================
 const scrollToTopBtn = document.getElementById('scrollToTop');
