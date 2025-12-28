@@ -31,12 +31,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-link');
     
     // Toggle mobile menu
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
+    if (menuToggle && navMenu) {
+        // Simple toggle function
+        function toggleMenu() {
             menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (navMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+        
+        // Single click handler works for both click and touch
+        menuToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleMenu();
         });
     }
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (navMenu && navMenu.classList.contains('active')) {
+            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+    });
     
     // Close mobile menu when a link is clicked
     navLinks.forEach(link => {
@@ -51,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     navMenu.classList.remove('active');
                     menuToggle.classList.remove('active');
+                    document.body.style.overflow = '';
                 }, 150);
             }
         });
@@ -379,28 +406,39 @@ if (philosophyCards.length > 0) {
         let touchEndX = 0;
         let touchStartY = 0;
         let touchEndY = 0;
+        let isSwiping = false;
         const swipeThreshold = 50;
+        const verticalThreshold = 30; // If vertical movement exceeds this, allow normal scroll
         
         philosophyContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
+            isSwiping = false;
             clearInterval(philosophyAutoRotate);
+        }, { passive: true });
+        
+        philosophyContainer.addEventListener('touchmove', (e) => {
+            const currentX = e.changedTouches[0].screenX;
+            const currentY = e.changedTouches[0].screenY;
+            const deltaX = Math.abs(currentX - touchStartX);
+            const deltaY = Math.abs(currentY - touchStartY);
+            
+            // If horizontal movement is significantly greater than vertical, it's a swipe
+            // Otherwise, allow normal vertical scrolling
+            if (deltaX > deltaY && deltaX > 10) {
+                isSwiping = true;
+            }
         }, { passive: true });
         
         philosophyContainer.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             touchEndY = e.changedTouches[0].screenY;
-            handleSwipe();
-            // Restart auto-rotate after swipe
-            philosophyAutoRotate = setInterval(nextPhilosophyCard, 5000);
-        }, { passive: true });
-        
-        function handleSwipe() {
-            const deltaX = touchEndX - touchStartX;
-            const deltaY = touchEndY - touchStartY;
             
-            // Only register horizontal swipes (ignore vertical scrolling)
-            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = Math.abs(touchEndY - touchStartY);
+            
+            // Only handle as swipe if horizontal movement is dominant and significant
+            if (isSwiping && Math.abs(deltaX) > swipeThreshold && Math.abs(deltaX) > deltaY * 1.5) {
                 if (deltaX > 0) {
                     // Swipe right - go to previous
                     prevPhilosophyCard();
@@ -409,7 +447,10 @@ if (philosophyCards.length > 0) {
                     nextPhilosophyCard();
                 }
             }
-        }
+            
+            // Restart auto-rotate after touch
+            philosophyAutoRotate = setInterval(nextPhilosophyCard, 5000);
+        }, { passive: true });
     }
 }
 

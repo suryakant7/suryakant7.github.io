@@ -8,43 +8,30 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ===================================
     // 1. MOBILE MENU ENHANCED ANIMATIONS
+    // Note: Menu toggle is handled in script.js
+    // This section only handles nav link click animations
     // ===================================
-    const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
     const navLinks = document.querySelectorAll('.nav-link');
+    const menuToggle = document.getElementById('menuToggle');
     
-    if (menuToggle && navMenu) {
-        menuToggle.addEventListener('click', function() {
-            this.classList.toggle('active');
-            navMenu.classList.toggle('active');
+    // Add click animation to nav links only
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Add click animation
+            this.classList.add('clicked');
+            
+            // Create ripple effect
+            const ripple = document.createElement('span');
+            ripple.classList.add('nav-ripple');
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                this.classList.remove('clicked');
+                ripple.remove();
+            }, 500);
         });
-        
-        // Add click animation to nav links
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                // Add click animation
-                this.classList.add('clicked');
-                
-                // Create ripple effect
-                const ripple = document.createElement('span');
-                ripple.classList.add('nav-ripple');
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    this.classList.remove('clicked');
-                    ripple.remove();
-                }, 500);
-                
-                // Close mobile menu with delay for smooth transition
-                if (navMenu.classList.contains('active')) {
-                    setTimeout(() => {
-                        navMenu.classList.remove('active');
-                        menuToggle.classList.remove('active');
-                    }, 200);
-                }
-            });
-        });
-    }
+    });
     
     // ===================================
     // 2. ABOUT SECTION - EXPANDABLE HIGHLIGHTS
