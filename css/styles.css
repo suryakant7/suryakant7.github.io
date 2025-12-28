@@ -808,10 +808,27 @@ a:hover {
 }
 
 .about-highlights {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-md);
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+/* New Highlights Container - Horizontal Layout */
+.highlights-container {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.highlight-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 1 280px;
 }
 
 .highlight-item {
@@ -825,6 +842,7 @@ a:hover {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    width: 100%;
 }
 
 .highlight-item.expandable {
@@ -854,43 +872,61 @@ a:hover {
 .expandable-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-out;
-    margin-top: var(--spacing-md);
+    transition: max-height 0.5s ease-out, padding 0.3s ease, margin 0.3s ease;
+    width: 100%;
 }
 
 .expandable-content.expanded {
-    max-height: 300px;
+    max-height: 200px;
+    padding-top: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
 }
 
 .timeline-horizontal {
     display: flex;
-    gap: var(--spacing-md);
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: var(--spacing-md) 0;
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-accent) var(--color-bg-secondary);
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: var(--spacing-xs) 0;
 }
 
-.timeline-horizontal::-webkit-scrollbar {
-    height: 6px;
+/* Mini timeline items for compact expandables */
+.timeline-item-mini {
+    background: var(--color-bg-card);
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 80px;
+    transition: all var(--transition-speed);
 }
 
-.timeline-horizontal::-webkit-scrollbar-track {
-    background: var(--color-bg-secondary);
-    border-radius: 3px;
+.timeline-item-mini:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+    transform: translateY(-2px);
 }
 
-.timeline-horizontal::-webkit-scrollbar-thumb {
-    background: var(--color-accent);
-    border-radius: 3px;
+.timeline-item-mini .timeline-year,
+.timeline-item-mini .timeline-company,
+.timeline-item-mini .timeline-tech {
+    font-weight: 600;
+    color: var(--color-accent);
+    font-size: 0.85rem;
+    margin: 0;
 }
 
-.timeline-horizontal::-webkit-scrollbar-thumb:hover {
-    background: var(--color-accent-alt);
+.timeline-item-mini .timeline-text {
+    font-size: 0.75rem;
+    color: var(--color-text-medium);
+    text-align: center;
 }
 
-.timeline-item {
+/* Original timeline-item for other sections */
+.about .timeline-item {
     min-width: 250px;
     background: var(--color-bg-card);
     border: 1px solid rgba(255, 107, 53, 0.3);
@@ -900,7 +936,7 @@ a:hover {
     position: relative;
 }
 
-.timeline-item:hover {
+.about .timeline-item:hover {
     border-color: var(--color-accent);
     box-shadow: 0 0 15px rgba(255, 107, 53, 0.3);
     transform: translateY(-2px);
@@ -2494,6 +2530,68 @@ a:hover {
 }
 
 /* ===================================
+   SCROLL TO TOP BUTTON
+   =================================== */
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-red) 100%);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+}
+
+.scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-to-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(255, 107, 53, 0.6);
+}
+
+.scroll-to-top:active {
+    transform: scale(0.95);
+}
+
+.scroll-arrow {
+    color: var(--color-white);
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.scroll-to-top::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: inherit;
+    animation: scrollBtnPulse 2s ease-in-out infinite;
+    z-index: -1;
+}
+
+@keyframes scrollBtnPulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.3); opacity: 0; }
+}
+
+/* ===================================
    FOOTER
    =================================== */
 .footer {
@@ -3188,8 +3286,17 @@ body.mouse-active::after {
     }
     
     /* About Highlights Mobile */
+    .highlights-container {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .highlight-wrapper {
+        flex: 1 1 100%;
+    }
+    
     .about-highlights {
-        grid-template-columns: 1fr;
+        flex-direction: column;
         gap: var(--spacing-sm);
     }
     
@@ -3210,9 +3317,22 @@ body.mouse-active::after {
         padding: var(--spacing-sm) 0;
     }
     
-    .timeline-horizontal .timeline-item {
-        min-width: 200px;
-        padding: var(--spacing-sm);
+    .timeline-horizontal .timeline-item,
+    .timeline-item-mini {
+        min-width: auto;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    /* Scroll to Top Mobile */
+    .scroll-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+    }
+    
+    .scroll-arrow {
+        font-size: 1.2rem;
     }
     
     /* Tooltip Mobile */
