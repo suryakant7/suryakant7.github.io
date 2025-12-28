@@ -1217,6 +1217,107 @@ a:hover {
 }
 
 /* ===================================
+   SKILLS & TECH STACK SECTION
+   =================================== */
+.skills {
+    background-color: var(--color-bg-dark);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.skill-category {
+    background: linear-gradient(135deg, var(--color-bg-card) 0%, rgba(26, 26, 26, 0.95) 100%);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    border: 1px solid rgba(255, 107, 53, 0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animated background for skill tiles */
+.skill-category::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg 90deg,
+        rgba(255, 107, 53, 0.1) 90deg 180deg,
+        transparent 180deg 270deg,
+        rgba(255, 215, 0, 0.1) 270deg 360deg
+    );
+    animation: rotateBg 8s linear infinite;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.skill-category:hover::before {
+    opacity: 1;
+}
+
+@keyframes rotateBg {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.skill-category::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: linear-gradient(135deg, var(--color-bg-card) 0%, rgba(26, 26, 26, 0.98) 100%);
+    border-radius: calc(var(--border-radius) - 2px);
+    z-index: 1;
+}
+
+.skill-category:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(255, 107, 53, 0.3);
+}
+
+.skill-category > * {
+    position: relative;
+    z-index: 2;
+}
+
+.category-title {
+    font-size: 1.1rem;
+    color: var(--color-accent);
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.category-title::before {
+    content: '⚡';
+    font-size: 1rem;
+}
+
+.skill-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    justify-content: center;
+}
+
+/* ===================================
    PROJECTS SECTION
    =================================== */
 .projects {
@@ -1229,6 +1330,7 @@ a:hover {
     gap: var(--spacing-md);
     max-width: 1100px;
     margin: 0 auto;
+    justify-items: center;
 }
 
 .project-card {
@@ -1241,6 +1343,8 @@ a:hover {
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    width: 100%;
+    max-width: 500px;
 }
 
 .project-header {
@@ -2183,6 +2287,13 @@ body.mouse-active::after {
 /* ===================================
    RESPONSIVE DESIGN (MOBILE-FIRST)
    =================================== */
+
+/* Tablet breakpoint (1024px) */
+@media (max-width: 1024px) {
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
 /* Tablets and below (768px) */
 @media (max-width: 768px) {
