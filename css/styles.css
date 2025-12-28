@@ -821,14 +821,16 @@ a:hover {
     justify-content: center;
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .highlight-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 0 1 280px;
+    flex: 1 1 0;
+    max-width: 300px;
+    min-width: 200px;
 }
 
 .highlight-item {
