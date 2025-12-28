@@ -99,25 +99,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // ===================================
-    // 3. PROFESSIONAL EXPERIENCE - NEW CARD LAYOUT
+    // 3. PROFESSIONAL EXPERIENCE - TIMELINE LAYOUT
     // ===================================
-    const experienceCards = document.querySelectorAll('.experience-card.expandable');
+    const timelineItems = document.querySelectorAll('.timeline-item.expandable');
     
-    experienceCards.forEach(card => {
-        card.addEventListener('click', function(e) {
-            // Don't expand if clicking on a tech tag
-            if (e.target.classList.contains('tech-tag')) return;
-            
-            // Close other cards
-            experienceCards.forEach(otherCard => {
-                if (otherCard !== card) {
-                    otherCard.classList.remove('expanded');
-                }
+    timelineItems.forEach(item => {
+        const card = item.querySelector('.timeline-card');
+        if (card) {
+            card.addEventListener('click', function(e) {
+                // Don't expand if clicking on a tech tag
+                if (e.target.classList.contains('tech-tag')) return;
+                
+                // Close other items
+                timelineItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('expanded');
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('expanded');
             });
-            
-            // Toggle current card
-            card.classList.toggle('expanded');
-        });
+        }
     });
     
     // ===================================
