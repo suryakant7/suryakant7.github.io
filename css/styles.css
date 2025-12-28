@@ -3222,8 +3222,11 @@ body.mouse-active::after {
         gap: 0;
         transform: translateX(-100%);
         opacity: 0;
+        visibility: hidden;
+        display: flex;
         transition: transform 0.4s cubic-bezier(0.68, -0.15, 0.265, 1.15),
-                    opacity 0.3s ease;
+                    opacity 0.3s ease,
+                    visibility 0.3s ease;
         overflow-y: auto;
     }
     
@@ -3249,6 +3252,7 @@ body.mouse-active::after {
     .nav-menu.active {
         transform: translateX(0);
         opacity: 1;
+        visibility: visible;
     }
     
     .nav-menu li {
@@ -3634,40 +3638,18 @@ body.mouse-active::after {
         padding: var(--spacing-xs) var(--spacing-sm);
     }
     
-    /* Philosophy Section Mobile - Horizontal Scrollable */
+    /* Philosophy Section Mobile - Keep card stack with swipe support */
     .philosophy-stack-container {
-        display: flex;
-        flex-direction: row;
-        overflow-x: auto;
-        overflow-y: hidden;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        gap: var(--spacing-md);
-        padding: var(--spacing-sm) var(--spacing-md);
-        height: auto;
-        perspective: none;
+        height: 420px;
         max-width: 100%;
-    }
-    
-    .philosophy-stack-container::-webkit-scrollbar {
-        display: none;
+        touch-action: pan-x;
     }
     
     .philosophy-card {
-        position: relative;
-        flex: 0 0 85vw;
-        max-width: 320px;
-        height: auto;
-        min-height: 380px;
-        scroll-snap-align: center;
-        transform: none !important;
-        opacity: 1 !important;
-        pointer-events: auto !important;
+        /* Cards keep their data-state transforms from JS */
     }
     
     .philosophy-card-inner {
-        height: 100%;
         padding: var(--spacing-md);
     }
     
@@ -3684,21 +3666,28 @@ body.mouse-active::after {
         line-height: 1.6;
     }
     
-    .philosophy-controls {
-        display: none;
+    .philosophy-btn {
+        width: 44px;
+        height: 44px;
     }
     
-    /* Scroll indicator for philosophy */
-    .philosophy::after {
-        content: '← Swipe →';
+    /* Swipe hint for philosophy */
+    .philosophy-controls::after {
+        content: 'or swipe';
         display: block;
-        text-align: center;
+        position: absolute;
+        bottom: -25px;
+        left: 50%;
+        transform: translateX(-50%);
         color: var(--color-text-muted);
-        font-size: 0.85rem;
-        margin-top: var(--spacing-sm);
-        opacity: 0.7;
+        font-size: 0.75rem;
+        opacity: 0.6;
     }
     
+    .philosophy-controls {
+        position: relative;
+    }
+
     /* Scroll to Top Mobile */
     .scroll-to-top {
         bottom: 20px;

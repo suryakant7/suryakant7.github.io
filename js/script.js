@@ -33,19 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Toggle mobile menu
     if (menuToggle) {
         menuToggle.addEventListener('click', function() {
+            menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
-            
-            // Animate hamburger icon
-            const spans = menuToggle.querySelectorAll('span');
-            if (navMenu.classList.contains('active')) {
-                spans[0].style.transform = 'rotate(45deg) translateY(10px)';
-                spans[1].style.opacity = '0';
-                spans[2].style.transform = 'rotate(-45deg) translateY(-10px)';
-            } else {
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
-            }
         });
     }
     
@@ -61,10 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (navMenu.classList.contains('active')) {
                 setTimeout(() => {
                     navMenu.classList.remove('active');
-                    const spans = menuToggle.querySelectorAll('span');
-                    spans[0].style.transform = 'none';
-                    spans[1].style.opacity = '1';
-                    spans[2].style.transform = 'none';
+                    menuToggle.classList.remove('active');
                 }, 150);
             }
         });
@@ -387,6 +373,43 @@ if (philosophyCards.length > 0) {
         philosophyContainer.addEventListener('mouseleave', () => {
             philosophyAutoRotate = setInterval(nextPhilosophyCard, 5000);
         });
+        
+        // Touch/Swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
+        const swipeThreshold = 50;
+        
+        philosophyContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+            clearInterval(philosophyAutoRotate);
+        }, { passive: true });
+        
+        philosophyContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+            // Restart auto-rotate after swipe
+            philosophyAutoRotate = setInterval(nextPhilosophyCard, 5000);
+        }, { passive: true });
+        
+        function handleSwipe() {
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+            
+            // Only register horizontal swipes (ignore vertical scrolling)
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+                if (deltaX > 0) {
+                    // Swipe right - go to previous
+                    prevPhilosophyCard();
+                } else {
+                    // Swipe left - go to next
+                    nextPhilosophyCard();
+                }
+            }
+        }
     }
 }
 
