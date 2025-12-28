@@ -99,66 +99,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // ===================================
-    // 3. PROFESSIONAL EXPERIENCE - CLICK ANYWHERE TO EXPAND
+    // 3. PROFESSIONAL EXPERIENCE - NEW CARD LAYOUT
     // ===================================
-    const experienceSection = document.querySelector('#experience .timeline');
-    if (experienceSection) {
-        const timelineItems = experienceSection.querySelectorAll('.timeline-item');
-        
-        timelineItems.forEach(item => {
-            const content = item.querySelector('.timeline-content');
-            if (!content) return;
+    const experienceCards = document.querySelectorAll('.experience-card.expandable');
+    
+    experienceCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Don't expand if clicking on a tech tag
+            if (e.target.classList.contains('tech-tag')) return;
             
-            const details = content.querySelector('.timeline-details');
+            // Close other cards
+            experienceCards.forEach(otherCard => {
+                if (otherCard !== card) {
+                    otherCard.classList.remove('expanded');
+                }
+            });
             
-            if (details) {
-                // Initially hide details
-                details.style.maxHeight = '0';
-                details.style.overflow = 'hidden';
-                details.style.opacity = '0';
-                details.style.transition = 'max-height 0.5s ease, opacity 0.3s ease';
-                
-                // Make entire content clickable
-                content.style.cursor = 'pointer';
-                
-                content.addEventListener('click', function(e) {
-                    // Don't expand if clicking on a tech tag
-                    if (e.target.classList.contains('tech-tag')) return;
-                    
-                    // Close other expanded items
-                    timelineItems.forEach(otherItem => {
-                        if (otherItem !== item) {
-                            const otherContent = otherItem.querySelector('.timeline-content');
-                            const otherDetails = otherItem.querySelector('.timeline-details');
-                            if (otherContent && otherDetails) {
-                                otherContent.classList.remove('expanded');
-                                otherDetails.style.maxHeight = '0';
-                                otherDetails.style.opacity = '0';
-                            }
-                        }
-                    });
-                    
-                    // Toggle current item
-                    content.classList.toggle('expanded');
-                    
-                    if (content.classList.contains('expanded')) {
-                        details.style.maxHeight = details.scrollHeight + 'px';
-                        details.style.opacity = '1';
-                        
-                        // Animate list items
-                        const listItems = details.querySelectorAll('li');
-                        listItems.forEach((li, index) => {
-                            li.style.animation = `fadeInUp 0.4s ease forwards ${index * 0.1}s`;
-                            li.style.opacity = '0';
-                        });
-                    } else {
-                        details.style.maxHeight = '0';
-                        details.style.opacity = '0';
-                    }
-                });
-            }
+            // Toggle current card
+            card.classList.toggle('expanded');
         });
-    }
+    });
     
     // ===================================
     // 4. PROJECTS - CLICK ANYWHERE TO EXPAND
@@ -569,6 +529,164 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         </style>
     `);
+    
+    // ===================================
+    // 10. 3D GALLERY CAROUSEL
+    // ===================================
+    const carouselTrack = document.getElementById('carouselTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('carouselDots');
+    
+    if (carouselTrack && prevBtn && nextBtn && dotsContainer) {
+        const slides = carouselTrack.querySelectorAll('.carousel-slide');
+        const totalSlides = slides.length;
+        let currentIndex = 0;
+        let autoPlayInterval;
+        let isDragging = false;
+        let startX = 0;
+        let dragThreshold = 50;
+        
+        // Create dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.classList.add('carousel-dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+        
+        const dots = dotsContainer.querySelectorAll('.carousel-dot');
+        
+        function updateCarousel() {
+            slides.forEach((slide, index) => {
+                // Remove all position classes
+                slide.classList.remove('active', 'prev', 'prev-2', 'next', 'next-2', 'hidden');
+                
+                // Calculate position relative to current
+                let diff = index - currentIndex;
+                
+                // Handle circular wrapping
+                if (diff > totalSlides / 2) diff -= totalSlides;
+                if (diff < -totalSlides / 2) diff += totalSlides;
+                
+                // Apply appropriate class
+                if (diff === 0) {
+                    slide.classList.add('active');
+                } else if (diff === -1) {
+                    slide.classList.add('prev');
+                } else if (diff === -2) {
+                    slide.classList.add('prev-2');
+                } else if (diff === 1) {
+                    slide.classList.add('next');
+                } else if (diff === 2) {
+                    slide.classList.add('next-2');
+                } else {
+                    slide.classList.add('hidden');
+                }
+            });
+            
+            // Update dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+        
+        function goToSlide(index) {
+            currentIndex = (index + totalSlides) % totalSlides;
+            updateCarousel();
+            resetAutoPlay();
+        }
+        
+        function nextSlide() {
+            goToSlide(currentIndex + 1);
+        }
+        
+        function prevSlide() {
+            goToSlide(currentIndex - 1);
+        }
+        
+        // Button controls
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+        
+        // Touch/drag support
+        carouselTrack.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            carouselTrack.style.cursor = 'grabbing';
+        });
+        
+        carouselTrack.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startX = e.touches[0].clientX;
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+        });
+        
+        document.addEventListener('mouseup', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            carouselTrack.style.cursor = 'grab';
+            const diff = e.clientX - startX;
+            if (Math.abs(diff) > dragThreshold) {
+                if (diff > 0) prevSlide();
+                else nextSlide();
+            }
+        });
+        
+        document.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            const diff = e.changedTouches[0].clientX - startX;
+            if (Math.abs(diff) > dragThreshold) {
+                if (diff > 0) prevSlide();
+                else nextSlide();
+            }
+        });
+        
+        // Auto-play
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(nextSlide, 4000);
+        }
+        
+        function resetAutoPlay() {
+            clearInterval(autoPlayInterval);
+            startAutoPlay();
+        }
+        
+        // Pause on hover
+        carouselTrack.addEventListener('mouseenter', () => {
+            clearInterval(autoPlayInterval);
+        });
+        
+        carouselTrack.addEventListener('mouseleave', () => {
+            startAutoPlay();
+        });
+        
+        // Click on side slides to navigate
+        slides.forEach((slide, index) => {
+            slide.addEventListener('click', () => {
+                if (!slide.classList.contains('active')) {
+                    goToSlide(index);
+                }
+            });
+        });
+        
+        // Initialize
+        carouselTrack.style.cursor = 'grab';
+        updateCarousel();
+        startAutoPlay();
+    }
     
     console.log('✨ Enhanced portfolio v3.0 loaded successfully!');
 });
