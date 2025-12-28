@@ -1084,6 +1084,8 @@ a:hover {
     font-weight: 500;
     border: 1px solid var(--color-accent);
     transition: all var(--transition-speed);
+    cursor: pointer;
+    position: relative;
 }
 
 .tech-tag:hover {
@@ -1091,51 +1093,95 @@ a:hover {
     transform: translateY(-2px);
 }
 
-/* ===================================
-   SKILLS SECTION
-   =================================== */
-.skills {
-    background-color: var(--color-bg-dark);
+.tech-tag:active {
+    transform: scale(0.95);
 }
 
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-md);
-    max-width: 1000px;
-    margin: 0 auto;
+.tech-tag.active {
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-red) 100%);
+    box-shadow: 0 0 15px rgba(255, 107, 53, 0.6);
+    animation: tagPulse 0.3s ease;
 }
 
-.skill-category {
-    background-color: var(--color-bg-card);
-    padding: var(--spacing-md);
+@keyframes tagPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Tech Tag Tooltip */
+.tech-tooltip {
+    position: fixed;
+    background: linear-gradient(135deg, rgba(21, 21, 21, 0.98) 0%, rgba(26, 26, 26, 0.98) 100%);
+    border: 1px solid var(--color-accent);
     border-radius: var(--border-radius);
-    border: 1px solid rgba(255, 107, 53, 0.2);
-    transition: all var(--transition-speed);
-    position: relative;
+    padding: var(--spacing-sm) var(--spacing-md);
+    max-width: 280px;
+    z-index: 10000;
+    box-shadow: 0 10px 40px rgba(255, 107, 53, 0.4), 0 0 20px rgba(255, 107, 53, 0.2);
+    animation: tooltipAppear 0.3s ease;
+    pointer-events: none;
 }
 
-.skill-category:hover {
-    transform: translateY(-5px);
-    border-color: var(--color-accent);
-    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+@keyframes tooltipAppear {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
-.category-title {
-    font-size: 1.25rem;
+.tech-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid var(--color-accent);
+}
+
+.tech-tooltip h4 {
     color: var(--color-accent);
-    margin-bottom: var(--spacing-sm);
-    padding-bottom: var(--spacing-xs);
-    border-bottom: 2px solid var(--color-accent);
-    text-shadow: 0 0 8px rgba(255, 107, 53, 0.3);
-}
-
-.skill-items {
+    font-size: 1rem;
+    margin-bottom: var(--spacing-xs);
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-xs);
+    align-items: center;
+    gap: 8px;
 }
 
+.tech-tooltip p {
+    color: var(--color-text-medium);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.tech-tooltip .tooltip-bar {
+    margin-top: var(--spacing-xs);
+    height: 4px;
+    background: var(--color-bg-secondary);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.tech-tooltip .tooltip-progress {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-alt));
+    animation: tooltipTimer 3s linear forwards;
+}
+
+@keyframes tooltipTimer {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+/* Skill Item Tooltip */
 .skill-item {
     background-color: rgba(255, 107, 53, 0.1);
     color: var(--color-text-medium);
@@ -1145,14 +1191,29 @@ a:hover {
     font-weight: 500;
     border: 1px solid rgba(255, 107, 53, 0.3);
     transition: all var(--transition-speed);
+    cursor: pointer;
+    position: relative;
 }
 
 .skill-item:hover {
     background-color: var(--color-accent);
     color: var(--color-white);
     border-color: var(--color-accent);
-    transform: scale(1.1);
+    transform: scale(1.05);
     box-shadow: 0 0 15px rgba(255, 107, 53, 0.6);
+}
+
+.skill-item:active {
+    transform: scale(0.95);
+}
+
+.skill-item.active {
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-red) 100%);
+    color: var(--color-white);
+    border-color: var(--color-accent);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.8);
+    animation: tagPulse 0.3s ease;
 }
 
 /* ===================================
@@ -1298,35 +1359,230 @@ a:hover {
 }
 
 /* ===================================
-   EDUCATION SECTION
+   EDUCATION SECTION - NEW GRID LAYOUT
    =================================== */
 .education {
     background-color: var(--color-bg-dark);
 }
 
-.education-content {
-    max-width: 900px;
+.education-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    max-width: 1000px;
     margin: 0 auto;
 }
 
-.education-item {
-    display: flex;
-    gap: var(--spacing-md);
-    padding: var(--spacing-md);
-    background-color: var(--color-bg-card);
+.education-card {
+    background: linear-gradient(135deg, var(--color-bg-card) 0%, rgba(26, 26, 26, 0.9) 100%);
     border-radius: var(--border-radius);
-    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md);
     border: 1px solid rgba(255, 107, 53, 0.2);
-    transition: all var(--transition-speed);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    user-select: none;
+    position: relative;
+    overflow: hidden;
 }
 
-.education-header {
+.education-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-alt), var(--color-red));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.education-card:hover::before,
+.education-card.expanded::before {
+    transform: scaleX(1);
+}
+
+.education-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+    transform: translateY(-5px);
+}
+
+.education-card.expanded {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 30px rgba(255, 107, 53, 0.4);
+}
+
+.education-card .education-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+    display: block;
+}
+
+.education-card .degree-title {
+    font-size: 1.2rem;
+    color: var(--color-white);
+    margin-bottom: var(--spacing-xs);
+}
+
+.education-card .institution {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.education-card .expand-indicator {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    color: var(--color-accent);
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.education-card.expanded .expand-indicator {
+    transform: rotate(180deg);
+}
+
+.education-card .education-details {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.3s ease, margin 0.3s ease;
+    margin-top: 0;
+}
+
+.education-card.expanded .education-details {
+    max-height: 500px;
+    opacity: 1;
+    margin-top: var(--spacing-md);
+}
+
+.education-card .education-description {
+    color: var(--color-text-medium);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-sm);
+}
+
+.education-card .education-highlights {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+}
+
+.education-card .edu-tag {
+    background: rgba(255, 107, 53, 0.15);
+    color: var(--color-accent);
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    border: 1px solid rgba(255, 107, 53, 0.3);
+}
+
+.education-card .education-extra {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: var(--spacing-xs);
+}
+
+.education-card .education-extra strong {
+    color: var(--color-accent);
+}
+
+/* ===================================
+   ACHIEVEMENTS SECTION - EXPANDABLE
+   =================================== */
+.achievements {
+    background-color: var(--color-bg-secondary);
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.achievement-card {
+    background: linear-gradient(135deg, var(--color-bg-card) 0%, rgba(26, 26, 26, 0.9) 100%);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 1px solid rgba(255, 107, 53, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.achievement-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+    transform: translateY(-5px);
+}
+
+.achievement-card.expanded {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 30px rgba(255, 107, 53, 0.4);
+}
+
+.achievement-card .achievement-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-xs);
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.achievement-card:hover .achievement-icon {
+    transform: scale(1.2);
+}
+
+.achievement-card .achievement-title {
+    font-size: 1.1rem;
+    color: var(--color-white);
+    margin-bottom: var(--spacing-xs);
+}
+
+.achievement-card .expand-indicator {
+    color: var(--color-accent);
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+    display: block;
+    margin-top: var(--spacing-xs);
+}
+
+.achievement-card.expanded .expand-indicator {
+    transform: rotate(180deg);
+}
+
+.achievement-card .achievement-details {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.3s ease, margin 0.3s ease;
+    margin-top: 0;
+    text-align: center;
+}
+
+.achievement-card.expanded .achievement-details {
+    max-height: 300px;
+    opacity: 1;
+    margin-top: var(--spacing-sm);
+}
+
+.achievement-card .achievement-year {
+    color: var(--color-accent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.achievement-card .achievement-description {
+    color: var(--color-text-medium);
+    font-size: 0.9rem;
+    line-height: 1.6;
 }
 
 .education-summary {
@@ -2153,9 +2409,39 @@ body.mouse-active::after {
         align-items: flex-start;
     }
     
-    /* Education */
-    .education-item {
-        flex-direction: column;
+    /* Education Grid Mobile */
+    .education-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .education-card {
+        padding: var(--spacing-sm);
+    }
+    
+    .education-card .education-icon {
+        font-size: 2rem;
+    }
+    
+    .education-card .degree-title {
+        font-size: 1.1rem;
+    }
+    
+    /* Achievements Grid Mobile */
+    .achievements-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+    
+    .achievement-card {
+        padding: var(--spacing-sm);
+    }
+    
+    .achievement-card .achievement-icon {
+        font-size: 2rem;
+    }
+    
+    .achievement-card .achievement-title {
+        font-size: 0.95rem;
     }
     
     /* Skills */
@@ -2226,6 +2512,12 @@ body.mouse-active::after {
         min-width: 200px;
         padding: var(--spacing-sm);
     }
+    
+    /* Tooltip Mobile */
+    .tech-tooltip {
+        max-width: 250px;
+        font-size: 0.85rem;
+    }
 }
 
 /* Mobile phones (480px and below) */
@@ -2266,6 +2558,16 @@ body.mouse-active::after {
     }
     
     .contact-title {
+        font-size: 0.85rem;
+    }
+    
+    /* Achievements Extra Small */
+    .achievements-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .achievement-card .achievement-title {
         font-size: 0.85rem;
     }
 }
