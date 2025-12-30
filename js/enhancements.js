@@ -785,5 +785,170 @@ document.addEventListener('DOMContentLoaded', function() {
         startAutoPlay();
     }
     
+    // ===================================
+    // SKILLS HORIZONTAL FUTURISTIC SCROLL
+    // ===================================
+    const skillsSection = document.getElementById('skills');
+    const skillsGrid = document.querySelector('.skills-grid');
+    const skillCategories = document.querySelectorAll('.skill-category');
+    const skillsPrevBtn = document.querySelector('.skills-prev');
+    const skillsNextBtn = document.querySelector('.skills-next');
+    const skillsScrollTrack = document.querySelector('.skills-scroll-track');
+    
+    if (skillsSection && skillsGrid && skillCategories.length > 0) {
+        const scrollAmount = 305; // card width + gap
+        let autoScrollInterval = null;
+        let isHovering = false;
+        
+        // Update scroll progress indicator
+        function updateScrollProgress() {
+            const maxScroll = skillsGrid.scrollWidth - skillsGrid.clientWidth;
+            const progress = maxScroll > 0 ? (skillsGrid.scrollLeft / maxScroll) * 100 : 0;
+            if (skillsScrollTrack) {
+                skillsScrollTrack.style.setProperty('--scroll-progress', `${progress}%`);
+            }
+        }
+        
+        function scrollLeft() {
+            skillsGrid.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        }
+        
+        function scrollRight() {
+            const maxScroll = skillsGrid.scrollWidth - skillsGrid.clientWidth;
+            if (skillsGrid.scrollLeft >= maxScroll - 10) {
+                // Loop back to start
+                skillsGrid.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                skillsGrid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+        
+        function startAutoScroll() {
+            if (!autoScrollInterval && !isHovering) {
+                autoScrollInterval = setInterval(scrollRight, 3000);
+            }
+        }
+        
+        function stopAutoScroll() {
+            if (autoScrollInterval) {
+                clearInterval(autoScrollInterval);
+                autoScrollInterval = null;
+            }
+        }
+        
+        // Event listeners
+        if (skillsNextBtn) {
+            skillsNextBtn.addEventListener('click', () => {
+                scrollRight();
+                stopAutoScroll();
+                startAutoScroll();
+            });
+        }
+        
+        if (skillsPrevBtn) {
+            skillsPrevBtn.addEventListener('click', () => {
+                scrollLeft();
+                stopAutoScroll();
+                startAutoScroll();
+            });
+        }
+        
+        // Update progress on scroll
+        skillsGrid.addEventListener('scroll', updateScrollProgress);
+        
+        // Pause on hover (desktop only)
+        skillsGrid.addEventListener('mouseenter', () => {
+            isHovering = true;
+            stopAutoScroll();
+        });
+        
+        skillsGrid.addEventListener('mouseleave', () => {
+            isHovering = false;
+            startAutoScroll();
+        });
+        
+        // Touch swipe for horizontal scroll (doesn't block vertical)
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchMoveX = 0;
+        let isHorizontalSwipe = false;
+        
+        skillsGrid.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            isHorizontalSwipe = false;
+        }, { passive: true });
+        
+        skillsGrid.addEventListener('touchmove', (e) => {
+            const touchCurrentX = e.touches[0].clientX;
+            const touchCurrentY = e.touches[0].clientY;
+            const diffX = touchStartX - touchCurrentX;
+            const diffY = touchStartY - touchCurrentY;
+            
+            // Determine if horizontal swipe (only on first significant move)
+            if (!isHorizontalSwipe && Math.abs(diffX) > 10) {
+                isHorizontalSwipe = Math.abs(diffX) > Math.abs(diffY) * 1.5;
+            }
+            
+            // Only handle horizontal scroll if it's a horizontal swipe
+            if (isHorizontalSwipe) {
+                skillsGrid.scrollLeft += diffX * 0.5;
+                touchStartX = touchCurrentX;
+            }
+            // Vertical scroll continues naturally - we don't prevent default
+        }, { passive: true });
+        
+        skillsGrid.addEventListener('touchend', () => {
+            updateScrollProgress();
+            isHorizontalSwipe = false;
+        }, { passive: true });
+        
+        // Drag to scroll (desktop only)
+        let isDragging = false;
+        let startX, scrollStart;
+        
+        skillsGrid.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.pageX - skillsGrid.offsetLeft;
+            scrollStart = skillsGrid.scrollLeft;
+            skillsGrid.style.cursor = 'grabbing';
+        });
+        
+        skillsGrid.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - skillsGrid.offsetLeft;
+            const walk = (x - startX) * 2;
+            skillsGrid.scrollLeft = scrollStart - walk;
+        });
+        
+        skillsGrid.addEventListener('mouseup', () => {
+            isDragging = false;
+            skillsGrid.style.cursor = 'grab';
+        });
+        
+        skillsGrid.addEventListener('mouseleave', () => {
+            isDragging = false;
+            skillsGrid.style.cursor = 'grab';
+        });
+        
+        // Initialize
+        skillsGrid.style.cursor = 'grab';
+        updateScrollProgress();
+        
+        // Start auto-scroll when section is in view
+        const skillsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startAutoScroll();
+                } else {
+                    stopAutoScroll();
+                }
+            });
+        }, { threshold: 0.3 });
+        
+        skillsObserver.observe(skillsSection);
+    }
+    
     console.log('✨ Enhanced portfolio v3.0 loaded successfully!');
 });

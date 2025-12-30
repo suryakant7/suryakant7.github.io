@@ -28,6 +28,17 @@
                 <li><a href="#education" class="nav-link">Education</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
+            <a href="assets/resume/Surya_Kant_Resume.pdf" class="resume-btn" target="_blank" rel="noopener noreferrer" download>
+                <span class="resume-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </span>
+                <span class="resume-text">Resume</span>
+                <span class="resume-shine"></span>
+            </a>
         </div>
     </nav>
 
@@ -94,16 +105,33 @@
         <div class="shape"></div>
         <div class="container hero-content">
             <div class="hero-profile">
-                <div class="profile-image-container">
+                <div class="profile-image-container scifi-entrance">
+                    <div class="hologram-scanline"></div>
+                    <div class="glitch-overlay"></div>
                     <img src="assets/images/profile.png" alt="Surya Kant" class="profile-image" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'profile-placeholder\'>SK</div>'">
                     <div class="profile-ring"></div>
                     <div class="profile-ring ring-2"></div>
+                    <div class="profile-ring ring-3"></div>
                     <div class="profile-glow"></div>
+                    <div class="hex-frame"></div>
                 </div>
             </div>
             <p class="hero-greeting">Hello, I'm</p>
             <h1 class="hero-name">Surya Kant</h1>
-            <h2 class="hero-title">Senior Java Backend Developer</h2>
+            <h2 class="hero-title">
+                <span class="title-prefix">a </span>
+                <span class="rotating-text-container">
+                    <span class="rotating-text">
+                        <span class="rotating-text-item">Senior Java Backend Developer</span>
+                        <span class="rotating-text-item">Microservices Architect</span>
+                        <span class="rotating-text-item">System Design Enthusiast</span>
+                        <span class="rotating-text-item">CDAC Graduate</span>
+                        <span class="rotating-text-item">Problem Solver</span>
+                        <span class="rotating-text-item">Tech Explorer</span>
+                    </span>
+                </span>
+                <span class="typing-cursor">|</span>
+            </h2>
             <p class="hero-description">
                 Building scalable, high-performance microservices and distributed systems. 
                 Currently working as Senior Java Backend Developer at Goldman Sachs.
@@ -409,6 +437,11 @@
                         <span class="skill-item">Team Collaboration</span>
                     </div>
                 </div>
+            </div>
+            <div class="skills-controls">
+                <button class="skills-btn skills-prev" aria-label="Scroll left">←</button>
+                <div class="skills-scroll-track"></div>
+                <button class="skills-btn skills-next" aria-label="Scroll right">→</button>
             </div>
         </div>
     </section>
