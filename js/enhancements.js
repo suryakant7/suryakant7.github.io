@@ -856,7 +856,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update progress on scroll
         skillsGrid.addEventListener('scroll', updateScrollProgress);
         
-        // Pause on hover (desktop only)
+        // Pause on hover
         skillsGrid.addEventListener('mouseenter', () => {
             isHovering = true;
             stopAutoScroll();
@@ -867,43 +867,16 @@ document.addEventListener('DOMContentLoaded', function() {
             startAutoScroll();
         });
         
-        // Touch swipe for horizontal scroll (doesn't block vertical)
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touchMoveX = 0;
-        let isHorizontalSwipe = false;
-        
-        skillsGrid.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-            isHorizontalSwipe = false;
-        }, { passive: true });
-        
-        skillsGrid.addEventListener('touchmove', (e) => {
-            const touchCurrentX = e.touches[0].clientX;
-            const touchCurrentY = e.touches[0].clientY;
-            const diffX = touchStartX - touchCurrentX;
-            const diffY = touchStartY - touchCurrentY;
-            
-            // Determine if horizontal swipe (only on first significant move)
-            if (!isHorizontalSwipe && Math.abs(diffX) > 10) {
-                isHorizontalSwipe = Math.abs(diffX) > Math.abs(diffY) * 1.5;
+        // Mouse wheel horizontal scroll
+        skillsGrid.addEventListener('wheel', (e) => {
+            if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+                e.preventDefault();
+                skillsGrid.scrollLeft += e.deltaY;
+                updateScrollProgress();
             }
-            
-            // Only handle horizontal scroll if it's a horizontal swipe
-            if (isHorizontalSwipe) {
-                skillsGrid.scrollLeft += diffX * 0.5;
-                touchStartX = touchCurrentX;
-            }
-            // Vertical scroll continues naturally - we don't prevent default
-        }, { passive: true });
+        }, { passive: false });
         
-        skillsGrid.addEventListener('touchend', () => {
-            updateScrollProgress();
-            isHorizontalSwipe = false;
-        }, { passive: true });
-        
-        // Drag to scroll (desktop only)
+        // Drag to scroll
         let isDragging = false;
         let startX, scrollStart;
         
