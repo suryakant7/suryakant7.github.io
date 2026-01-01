@@ -401,14 +401,13 @@ if (philosophyCards.length > 0) {
             philosophyAutoRotate = setInterval(nextPhilosophyCard, 5000);
         });
         
-        // Touch/Swipe support for mobile
+        // Touch/Swipe support for mobile - FIXED to allow vertical scrolling
         let touchStartX = 0;
         let touchEndX = 0;
         let touchStartY = 0;
         let touchEndY = 0;
         let isSwiping = false;
         const swipeThreshold = 50;
-        const verticalThreshold = 30; // If vertical movement exceeds this, allow normal scroll
         
         philosophyContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.changedTouches[0].screenX;
@@ -423,9 +422,8 @@ if (philosophyCards.length > 0) {
             const deltaX = Math.abs(currentX - touchStartX);
             const deltaY = Math.abs(currentY - touchStartY);
             
-            // If horizontal movement is significantly greater than vertical, it's a swipe
-            // Otherwise, allow normal vertical scrolling
-            if (deltaX > deltaY && deltaX > 10) {
+            // Only treat as swipe if horizontal movement is much greater than vertical
+            if (deltaX > deltaY * 2 && deltaX > 15) {
                 isSwiping = true;
             }
         }, { passive: true });
@@ -437,13 +435,11 @@ if (philosophyCards.length > 0) {
             const deltaX = touchEndX - touchStartX;
             const deltaY = Math.abs(touchEndY - touchStartY);
             
-            // Only handle as swipe if horizontal movement is dominant and significant
-            if (isSwiping && Math.abs(deltaX) > swipeThreshold && Math.abs(deltaX) > deltaY * 1.5) {
+            // Only handle as swipe if it was clearly a horizontal swipe
+            if (isSwiping && Math.abs(deltaX) > swipeThreshold && Math.abs(deltaX) > deltaY * 2) {
                 if (deltaX > 0) {
-                    // Swipe right - go to previous
                     prevPhilosophyCard();
                 } else {
-                    // Swipe left - go to next
                     nextPhilosophyCard();
                 }
             }

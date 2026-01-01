@@ -2870,7 +2870,8 @@ a:hover {
     height: 480px;
     margin: 0 auto var(--spacing-lg);
     perspective: 1500px;
-    touch-action: pan-y pinch-zoom;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
 }
 
 .philosophy-card {
@@ -4674,5 +4675,753 @@ body.mouse-active::after {
 @media (min-width: 1400px) {
     .skill-category.card-stacked {
         transform: translateY(-30px) scale(0.95) rotateX(5deg) !important;
+    }
+}
+/* ===================================
+   PROFESSIONAL SKILLS SECTION
+   =================================== */
+.skills-professional {
+    background: linear-gradient(180deg, var(--color-bg-dark) 0%, rgba(15, 15, 15, 1) 100%);
+    padding: var(--spacing-xl) 0;
+    position: relative;
+}
+
+.skills-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.skill-category-card {
+    background: linear-gradient(145deg, rgba(25, 25, 25, 0.95) 0%, rgba(20, 20, 20, 0.98) 100%);
+    border: 1px solid rgba(255, 107, 53, 0.15);
+    border-radius: 16px;
+    padding: 25px;
+    transition: all 0.4s ease;
+}
+
+.skill-category-card:hover {
+    border-color: rgba(255, 107, 53, 0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 107, 53, 0.08);
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 107, 53, 0.1);
+}
+
+.category-icon {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+.skill-category-card .category-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.category-skills {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.skill-progress-item {
+    background: transparent;
+    border: none;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.skill-progress-item:hover .skill-name {
+    color: var(--color-accent);
+}
+
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.skill-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text-medium);
+    transition: color 0.3s ease;
+}
+
+.skill-percent {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(255, 107, 53, 0.8);
+}
+
+.skill-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.skill-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--color-accent) 0%, rgba(255, 150, 80, 0.9) 100%);
+    border-radius: 6px;
+    position: relative;
+    transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Subtle glow effect on filled bar */
+.skill-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.skill-progress-item:hover .skill-fill::after {
+    opacity: 1;
+}
+
+/* Mobile optimization for skills */
+@media (max-width: 768px) {
+    .skills-categories {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 15px;
+    }
+    
+    .skill-category-card {
+        padding: 20px;
+    }
+    
+    .category-header {
+        margin-bottom: 15px;
+        padding-bottom: 12px;
+    }
+    
+    .category-skills {
+        gap: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-categories {
+        grid-template-columns: 1fr;
+    }
+    
+    .skill-category-card .category-title {
+        font-size: 1rem;
+    }
+    
+    .skill-name {
+        font-size: 0.9rem;
+    }
+}
+
+/* ===================================
+   PROFESSIONAL HERO TEXT ANIMATION - "I'm"
+   =================================== */
+.title-prefix.glitch-text {
+    position: relative;
+    display: inline-block;
+    color: var(--color-accent);
+    font-weight: 700;
+    text-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
+    animation: smoothGlow 3s ease-in-out infinite;
+}
+
+@keyframes smoothGlow {
+    0%, 100% { 
+        text-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
+        color: var(--color-accent);
+    }
+    50% { 
+        text-shadow: 0 0 30px rgba(255, 107, 53, 0.6), 0 0 40px rgba(255, 217, 61, 0.3);
+        color: var(--color-accent-alt);
+    }
+}
+
+/* Enhanced rotating text animation - Professional */
+.rotating-text-item {
+    height: 1.75rem;
+    line-height: 1.75rem;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-alt), var(--color-accent));
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textGradientSmooth 4s ease-in-out infinite;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@keyframes textGradientSmooth {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Mobile hero title adjustments */
+@media (max-width: 768px) {
+    .title-prefix.glitch-text {
+        font-size: 1.1rem;
+    }
+    
+    .hero-title {
+        font-size: 1.3rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+/* ===================================
+   GAME CARDS & MODAL STYLES
+   =================================== */
+.game-card {
+    background: linear-gradient(135deg, rgba(21, 21, 21, 0.98) 0%, rgba(40, 20, 50, 0.95) 100%);
+    border: 2px solid rgba(255, 107, 53, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        from 0deg,
+        transparent,
+        rgba(255, 107, 53, 0.1),
+        transparent,
+        rgba(0, 255, 255, 0.1),
+        transparent
+    );
+    animation: gameCardRotate 10s linear infinite;
+}
+
+@keyframes gameCardRotate {
+    100% { transform: rotate(360deg); }
+}
+
+.game-badge {
+    background: linear-gradient(135deg, #9b59b6 0%, #e74c3c 100%) !important;
+    animation: gameBadgePulse 2s ease-in-out infinite;
+}
+
+@keyframes gameBadgePulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(155, 89, 182, 0.5); }
+    50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(155, 89, 182, 0.8); }
+}
+
+.game-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.game-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.2) 0%, rgba(155, 89, 182, 0.2) 100%);
+    border: 2px solid var(--color-accent);
+    border-radius: 30px;
+    color: var(--color-white);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.game-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.game-btn:hover::before {
+    left: 100%;
+}
+
+.game-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: linear-gradient(135deg, var(--color-accent) 0%, #9b59b6 100%);
+    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+}
+
+.game-btn:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+.game-icon {
+    font-size: 1.3rem;
+    animation: gameIconBounce 1s ease-in-out infinite;
+}
+
+@keyframes gameIconBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+/* Game Modal */
+.game-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    animation: modalFadeIn 0.3s ease;
+}
+
+.game-modal.active {
+    display: flex;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.game-modal-content {
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+    border: 2px solid var(--color-accent);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 500px;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 
+        0 0 50px rgba(255, 107, 53, 0.3),
+        inset 0 0 30px rgba(255, 107, 53, 0.05);
+    animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalSlideIn {
+    from { transform: translateY(-50px) scale(0.9); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.game-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--color-accent);
+    background: rgba(255, 107, 53, 0.1);
+    color: var(--color-accent);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-close-btn:hover {
+    background: var(--color-accent);
+    color: var(--color-white);
+    transform: rotate(90deg);
+}
+
+#gameContainer {
+    min-height: 300px;
+}
+
+/* Whack-a-Mole Game Styles */
+.whack-game {
+    text-align: center;
+}
+
+.whack-game h3 {
+    color: var(--color-accent);
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.game-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.game-stats span {
+    color: var(--color-white);
+}
+
+.game-stats strong {
+    color: var(--color-accent-alt);
+}
+
+.mole-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 300px;
+    margin: 0 auto 20px;
+}
+
+.mole-hole {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(180deg, #3d2817 0%, #2a1a0f 100%);
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border: 3px solid #5a3d2b;
+    box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.1s ease;
+}
+
+.mole-hole:active {
+    transform: scale(0.95);
+}
+
+.mole {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3rem;
+    transition: bottom 0.15s ease-out;
+}
+
+.mole-hole.active .mole {
+    bottom: 5px;
+}
+
+.mole-hole.hit .mole {
+    animation: moleHit 0.3s ease;
+}
+
+@keyframes moleHit {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.3) rotate(20deg); }
+    100% { transform: translateX(-50%) scale(0); }
+}
+
+.game-start-btn {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-red) 100%);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.game-start-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(255, 107, 53, 0.5);
+}
+
+/* Tic-Tac-Toe Game Styles */
+.ttt-game {
+    text-align: center;
+}
+
+.ttt-game h3 {
+    color: var(--color-accent);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.ttt-status {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--color-accent-alt);
+    min-height: 30px;
+}
+
+.ttt-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 240px;
+    margin: 0 auto 20px;
+}
+
+.ttt-cell {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(0, 255, 255, 0.05) 100%);
+    border: 2px solid rgba(255, 107, 53, 0.4);
+    border-radius: 10px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ttt-cell:hover:not(.taken) {
+    background: rgba(255, 107, 53, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 107, 53, 0.3);
+}
+
+.ttt-cell.x {
+    color: var(--color-cyan);
+    text-shadow: 0 0 10px var(--color-cyan);
+}
+
+.ttt-cell.o {
+    color: var(--color-red);
+    text-shadow: 0 0 10px var(--color-red);
+}
+
+.ttt-cell.winner {
+    animation: winnerPulse 0.5s ease infinite;
+    background: rgba(255, 217, 61, 0.3);
+}
+
+@keyframes winnerPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.ttt-restart-btn {
+    padding: 10px 25px;
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-red) 100%);
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ttt-restart-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+}
+
+/* ===================================
+   MEMORY MATCH GAME STYLES
+   =================================== */
+.memory-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    perspective: 1000px;
+}
+
+.memory-card {
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+    perspective: 1000px;
+}
+
+.memory-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+
+.memory-card.flipped .memory-card-inner,
+.memory-card.matched .memory-card-inner {
+    transform: rotateY(180deg);
+}
+
+.memory-card-front,
+.memory-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 2rem;
+}
+
+.memory-card-front {
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-red) 100%);
+}
+
+.memory-card-back {
+    background: #2a2a4e;
+    transform: rotateY(180deg);
+    border: 2px solid var(--color-cyan);
+}
+
+.memory-card.matched .memory-card-back {
+    border-color: #00cc99;
+    background: rgba(0, 204, 153, 0.2);
+    animation: matchPulse 0.5s ease;
+}
+
+@keyframes matchPulse {
+    0% { transform: rotateY(180deg) scale(1); }
+    50% { transform: rotateY(180deg) scale(1.1); }
+    100% { transform: rotateY(180deg) scale(1); }
+}
+
+/* ===================================
+   SNAKE GAME STYLES
+   =================================== */
+.snake-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+#snakeCanvas {
+    border: 3px solid var(--color-cyan);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.snake-controls {
+    text-align: center;
+}
+
+.snake-controls p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.mobile-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.control-row {
+    display: flex;
+    gap: 5px;
+}
+
+.control-btn {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.control-btn:hover,
+.control-btn:active {
+    background: var(--color-accent);
+    transform: scale(1.1);
+}
+
+/* Hide mobile controls on desktop */
+@media (min-width: 768px) {
+    .mobile-controls {
+        display: none;
+    }
+}
+
+/* Mobile game adjustments */
+@media (max-width: 480px) {
+    .mole-hole {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .mole {
+        font-size: 2.5rem;
+    }
+    
+    .ttt-cell {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+    
+    .game-modal-content {
+        padding: 20px;
+    }
+    
+    .memory-card {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .memory-card-front,
+    .memory-card-back {
+        font-size: 1.5rem;
+    }
+    
+    #snakeCanvas {
+        width: 280px !important;
+        height: 280px !important;
+    }
+    
+    .mobile-controls {
+        display: flex;
     }
 }

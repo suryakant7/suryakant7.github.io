@@ -119,7 +119,7 @@
             <p class="hero-greeting">Hello, I'm</p>
             <h1 class="hero-name">Surya Kant</h1>
             <h2 class="hero-title">
-                <span class="title-prefix">a </span>
+                <span class="title-prefix glitch-text" data-text="I'm">I'm </span>
                 <span class="rotating-text-container">
                     <span class="rotating-text">
                         <span class="rotating-text-item">Senior Java Backend Developer</span>
@@ -360,88 +360,149 @@
     </section>
 
     <!-- Skills & Tech Stack Section -->
-    <section id="skills" class="section skills">
+    <section id="skills" class="section skills-professional">
         <div class="container">
             <h2 class="section-title">Skills & Tech Stack</h2>
-            <div class="skills-grid">
+            <div class="skills-categories">
                 <!-- Backend Development -->
-                <div class="skill-category">
-                    <h3 class="category-title">Backend Development</h3>
-                    <div class="skill-items">
-                        <span class="skill-item">Java</span>
-                        <span class="skill-item">Spring Boot</span>
-                        <span class="skill-item">Spring Framework</span>
-                        <span class="skill-item">Hibernate / JPA</span>
-                        <span class="skill-item">REST APIs</span>
-                        <span class="skill-item">Microservices</span>
+                <div class="skill-category-card">
+                    <div class="category-header">
+                        <span class="category-icon">⚙️</span>
+                        <h3 class="category-title">Backend Development</h3>
                     </div>
-                </div>
-
-                <!-- Databases -->
-                <div class="skill-category">
-                    <h3 class="category-title">Databases</h3>
-                    <div class="skill-items">
-                        <span class="skill-item">SQL</span>
-                        <span class="skill-item">PostgreSQL</span>
-                        <span class="skill-item">MySQL</span>
-                        <span class="skill-item">Oracle DB</span>
-                        <span class="skill-item">MongoDB</span>
-                    </div>
-                </div>
-
-                <!-- Cloud & DevOps -->
-                <div class="skill-category">
-                    <h3 class="category-title">Cloud & DevOps</h3>
-                    <div class="skill-items">
-                        <span class="skill-item">Azure</span>
-                        <span class="skill-item">Docker</span>
-                        <span class="skill-item">Kubernetes</span>
-                        <span class="skill-item">CI/CD</span>
-                        <span class="skill-item">Git</span>
-                    </div>
-                </div>
-
-                <!-- Tools & Frameworks -->
-                <div class="skill-category">
-                    <h3 class="category-title">Tools & Frameworks</h3>
-                    <div class="skill-items">
-                        <span class="skill-item">Camunda BPM</span>
-                        <span class="skill-item">Maven</span>
-                        <span class="skill-item">Gradle</span>
-                        <span class="skill-item">JUnit</span>
-                        <span class="skill-item">Mockito</span>
-                        <span class="skill-item">Postman</span>
+                    <div class="category-skills">
+                        <div class="skill-progress-item" data-percent="95">
+                            <div class="skill-info"><span class="skill-name">Java</span><span class="skill-percent">95%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="92">
+                            <div class="skill-info"><span class="skill-name">Spring Boot</span><span class="skill-percent">92%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="87">
+                            <div class="skill-info"><span class="skill-name">Hibernate/JPA</span><span class="skill-percent">87%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="93">
+                            <div class="skill-info"><span class="skill-name">REST APIs</span><span class="skill-percent">93%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Architecture & Design -->
-                <div class="skill-category">
-                    <h3 class="category-title">Architecture & Design</h3>
-                    <div class="skill-items">
-                        <span class="skill-item">System Design</span>
-                        <span class="skill-item">Design Patterns</span>
-                        <span class="skill-item">Distributed Systems</span>
-                        <span class="skill-item">Event-Driven Architecture</span>
-                        <span class="skill-item">Scalability</span>
+                <div class="skill-category-card">
+                    <div class="category-header">
+                        <span class="category-icon">🏗️</span>
+                        <h3 class="category-title">Architecture & Design</h3>
+                    </div>
+                    <div class="category-skills">
+                        <div class="skill-progress-item" data-percent="90">
+                            <div class="skill-info"><span class="skill-name">Microservices</span><span class="skill-percent">90%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="88">
+                            <div class="skill-info"><span class="skill-name">System Design</span><span class="skill-percent">88%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="85">
+                            <div class="skill-info"><span class="skill-name">Design Patterns</span><span class="skill-percent">85%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Soft Skills -->
-                <div class="skill-category">
-                    <h3 class="category-title">Professional Skills</h3>
-                    <div class="skill-items">
-                        <span class="skill-item">Problem Solving</span>
-                        <span class="skill-item">Code Review</span>
-                        <span class="skill-item">Technical Documentation</span>
-                        <span class="skill-item">Agile/Scrum</span>
-                        <span class="skill-item">Team Collaboration</span>
+                <!-- Databases -->
+                <div class="skill-category-card">
+                    <div class="category-header">
+                        <span class="category-icon">🗄️</span>
+                        <h3 class="category-title">Databases</h3>
+                    </div>
+                    <div class="category-skills">
+                        <div class="skill-progress-item" data-percent="90">
+                            <div class="skill-info"><span class="skill-name">SQL</span><span class="skill-percent">90%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="85">
+                            <div class="skill-info"><span class="skill-name">PostgreSQL</span><span class="skill-percent">85%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="72">
+                            <div class="skill-info"><span class="skill-name">MongoDB</span><span class="skill-percent">72%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="skills-controls">
-                <button class="skills-btn skills-prev" aria-label="Scroll left">←</button>
-                <div class="skills-scroll-track"></div>
-                <button class="skills-btn skills-next" aria-label="Scroll right">→</button>
+
+                <!-- Cloud & DevOps -->
+                <div class="skill-category-card">
+                    <div class="category-header">
+                        <span class="category-icon">☁️</span>
+                        <h3 class="category-title">Cloud & DevOps</h3>
+                    </div>
+                    <div class="category-skills">
+                        <div class="skill-progress-item" data-percent="78">
+                            <div class="skill-info"><span class="skill-name">Azure</span><span class="skill-percent">78%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="82">
+                            <div class="skill-info"><span class="skill-name">Docker</span><span class="skill-percent">82%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="70">
+                            <div class="skill-info"><span class="skill-name">Kubernetes</span><span class="skill-percent">70%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="75">
+                            <div class="skill-info"><span class="skill-name">CI/CD</span><span class="skill-percent">75%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools & Others -->
+                <div class="skill-category-card">
+                    <div class="category-header">
+                        <span class="category-icon">🛠️</span>
+                        <h3 class="category-title">Tools & Workflow</h3>
+                    </div>
+                    <div class="category-skills">
+                        <div class="skill-progress-item" data-percent="88">
+                            <div class="skill-info"><span class="skill-name">Git</span><span class="skill-percent">88%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="80">
+                            <div class="skill-info"><span class="skill-name">Camunda BPM</span><span class="skill-percent">80%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="86">
+                            <div class="skill-info"><span class="skill-name">Agile/Scrum</span><span class="skill-percent">86%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problem Solving -->
+                <div class="skill-category-card">
+                    <div class="category-header">
+                        <span class="category-icon">🧠</span>
+                        <h3 class="category-title">Core Strengths</h3>
+                    </div>
+                    <div class="category-skills">
+                        <div class="skill-progress-item" data-percent="92">
+                            <div class="skill-info"><span class="skill-name">Problem Solving</span><span class="skill-percent">92%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="88">
+                            <div class="skill-info"><span class="skill-name">Code Review</span><span class="skill-percent">88%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                        <div class="skill-progress-item" data-percent="85">
+                            <div class="skill-info"><span class="skill-name">Team Collaboration</span><span class="skill-percent">85%</span></div>
+                            <div class="skill-bar"><div class="skill-fill"></div></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -527,9 +588,46 @@
                         </p>
                     </div>
                 </div>
+
+                <!-- Mini Games Section -->
+                <div class="project-card game-card">
+                    <div class="project-header">
+                        <div class="project-badge game-badge">🎮 Play Now</div>
+                    </div>
+                    <h3 class="project-title">Quick Brain Games</h3>
+                    <p class="project-description">
+                        Take a quick break! Challenge yourself with these fun mini-games.
+                    </p>
+                    <div class="game-buttons">
+                        <button class="game-btn" onclick="openGame('whack-a-mole')">
+                            <span class="game-icon">🔨</span>
+                            <span>Whack-a-Mole</span>
+                        </button>
+                        <button class="game-btn" onclick="openGame('tic-tac-toe')">
+                            <span class="game-icon">⭕</span>
+                            <span>Tic-Tac-Toe</span>
+                        </button>
+                        <button class="game-btn" onclick="openGame('memory-game')">
+                            <span class="game-icon">🧠</span>
+                            <span>Memory Match</span>
+                        </button>
+                        <button class="game-btn" onclick="openGame('snake-game')">
+                            <span class="game-icon">🐍</span>
+                            <span>Snake</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- Game Modal -->
+    <div id="gameModal" class="game-modal">
+        <div class="game-modal-content">
+            <button class="game-close-btn" onclick="closeGame()">✕</button>
+            <div id="gameContainer"></div>
+        </div>
+    </div>
 
     <!-- Education & Academic Background Section -->
     <section id="education" class="section education">
