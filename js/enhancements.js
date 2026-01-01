@@ -7,53 +7,193 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // ===================================
-    // SKILLS PROGRESS BAR ANIMATION (Re-triggers on scroll)
+    // GLITCH ROLE TEXT CYCLING
+    // ===================================
+    const glitchRole = document.getElementById('glitchRole');
+    if (glitchRole) {
+        const roles = JSON.parse(glitchRole.dataset.roles);
+        let currentIndex = 0;
+        
+        function triggerGlitchChange() {
+            // Add intense glitch class
+            glitchRole.classList.add('glitching');
+            
+            // After glitch peak, change the text
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % roles.length;
+                const newRole = roles[currentIndex];
+                glitchRole.textContent = newRole;
+                glitchRole.setAttribute('data-text', newRole);
+            }, 150);
+            
+            // Remove glitch class after animation
+            setTimeout(() => {
+                glitchRole.classList.remove('glitching');
+            }, 400);
+        }
+        
+        // Change role every 3 seconds
+        setInterval(triggerGlitchChange, 3000);
+    }
+    
+    // ===================================
+    // CUSTOM CURSOR WITH GLOWING STRING TRAIL
+    // ===================================
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        // Create cursor elements
+        const cursorDot = document.createElement('div');
+        cursorDot.className = 'cursor-dot';
+        document.body.appendChild(cursorDot);
+        
+        // Create SVG for glowing string
+        const svgNS = 'http://www.w3.org/2000/svg';
+        const cursorSvg = document.createElementNS(svgNS, 'svg');
+        cursorSvg.setAttribute('class', 'cursor-string');
+        cursorSvg.style.position = 'fixed';
+        cursorSvg.style.top = '0';
+        cursorSvg.style.left = '0';
+        cursorSvg.style.width = '100%';
+        cursorSvg.style.height = '100%';
+        cursorSvg.style.pointerEvents = 'none';
+        cursorSvg.style.zIndex = '99997';
+        
+        const cursorPath = document.createElementNS(svgNS, 'path');
+        cursorPath.setAttribute('stroke', 'url(#cursorGradient)');
+        cursorPath.setAttribute('stroke-width', '2');
+        cursorPath.setAttribute('fill', 'none');
+        cursorPath.setAttribute('stroke-linecap', 'round');
+        
+        // Create gradient for the string
+        const defs = document.createElementNS(svgNS, 'defs');
+        const gradient = document.createElementNS(svgNS, 'linearGradient');
+        gradient.setAttribute('id', 'cursorGradient');
+        gradient.setAttribute('gradientUnits', 'userSpaceOnUse');
+        
+        const stop1 = document.createElementNS(svgNS, 'stop');
+        stop1.setAttribute('offset', '0%');
+        stop1.setAttribute('stop-color', '#00ffff');
+        stop1.setAttribute('stop-opacity', '1');
+        
+        const stop2 = document.createElementNS(svgNS, 'stop');
+        stop2.setAttribute('offset', '50%');
+        stop2.setAttribute('stop-color', '#ff6b35');
+        stop2.setAttribute('stop-opacity', '0.8');
+        
+        const stop3 = document.createElementNS(svgNS, 'stop');
+        stop3.setAttribute('offset', '100%');
+        stop3.setAttribute('stop-color', '#ff6b35');
+        stop3.setAttribute('stop-opacity', '0');
+        
+        gradient.appendChild(stop1);
+        gradient.appendChild(stop2);
+        gradient.appendChild(stop3);
+        defs.appendChild(gradient);
+        cursorSvg.appendChild(defs);
+        cursorSvg.appendChild(cursorPath);
+        document.body.appendChild(cursorSvg);
+        
+        // Trail points array
+        const trailLength = 20;
+        const trailPoints = [];
+        let mouseX = 0, mouseY = 0;
+        
+        // Initialize trail points
+        for (let i = 0; i < trailLength; i++) {
+            trailPoints.push({ x: 0, y: 0 });
+        }
+        
+        // Update mouse position
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Update gradient direction
+            if (trailPoints.length > 0) {
+                const lastPoint = trailPoints[trailPoints.length - 1];
+                gradient.setAttribute('x1', mouseX);
+                gradient.setAttribute('y1', mouseY);
+                gradient.setAttribute('x2', lastPoint.x);
+                gradient.setAttribute('y2', lastPoint.y);
+            }
+        });
+        
+        // Hover effect for interactive elements
+        document.querySelectorAll('a, button, .project-card, .skill-category, .game-btn').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorDot.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
+        });
+        
+        // Animation loop for smooth trailing
+        function animateCursor() {
+            // Move cursor dot to mouse position with slight delay
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+            
+            // Update trail points with easing
+            trailPoints.unshift({ x: mouseX, y: mouseY });
+            if (trailPoints.length > trailLength) {
+                trailPoints.pop();
+            }
+            
+            // Create smooth curve path through points
+            if (trailPoints.length > 2) {
+                let pathD = `M ${trailPoints[0].x} ${trailPoints[0].y}`;
+                
+                for (let i = 1; i < trailPoints.length - 1; i++) {
+                    const p0 = trailPoints[i - 1];
+                    const p1 = trailPoints[i];
+                    const p2 = trailPoints[i + 1];
+                    
+                    // Smooth curve using quadratic bezier
+                    const cpX = p1.x;
+                    const cpY = p1.y;
+                    const endX = (p1.x + p2.x) / 2;
+                    const endY = (p1.y + p2.y) / 2;
+                    
+                    pathD += ` Q ${cpX} ${cpY} ${endX} ${endY}`;
+                }
+                
+                cursorPath.setAttribute('d', pathD);
+            }
+            
+            requestAnimationFrame(animateCursor);
+        }
+        
+        animateCursor();
+        
+        // Hide default cursor
+        document.body.style.cursor = 'none';
+        document.querySelectorAll('a, button, input, textarea, select').forEach(el => {
+            el.style.cursor = 'none';
+        });
+    }
+    
+    // ===================================
+    // SKILLS PROGRESS BAR ANIMATION
     // ===================================
     const skillItems = document.querySelectorAll('.skill-progress-item');
-    const skillsSection = document.getElementById('skills');
     
-    function animateSkillBars() {
-        skillItems.forEach((item, index) => {
-            const percent = item.getAttribute('data-percent');
-            const fill = item.querySelector('.skill-fill');
-            
-            // Reset first
-            fill.style.transition = 'none';
-            fill.style.width = '0';
-            
-            // Force reflow
-            fill.offsetHeight;
-            
-            // Animate with stagger
-            setTimeout(() => {
-                fill.style.transition = 'width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                fill.style.width = percent + '%';
-            }, index * 60);
+    const skillObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const item = entry.target;
+                const percent = item.getAttribute('data-percent');
+                const fill = item.querySelector('.skill-fill');
+                
+                // Smooth staggered animation
+                const index = Array.from(skillItems).indexOf(item);
+                setTimeout(() => {
+                    fill.style.width = percent + '%';
+                }, index * 80);
+                
+                skillObserver.unobserve(item);
+            }
         });
-    }
+    }, { threshold: 0.3 });
     
-    function resetSkillBars() {
-        skillItems.forEach(item => {
-            const fill = item.querySelector('.skill-fill');
-            fill.style.transition = 'none';
-            fill.style.width = '0';
-        });
-    }
-    
-    // Observe skills section for re-triggering animation
-    if (skillsSection) {
-        const skillSectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateSkillBars();
-                } else {
-                    resetSkillBars();
-                }
-            });
-        }, { threshold: 0.2 });
-        
-        skillSectionObserver.observe(skillsSection);
-    }
+    skillItems.forEach(item => {
+        skillObserver.observe(item);
+    });
     
     // ===================================
     // 1. MOBILE MENU ENHANCED ANIMATIONS
@@ -179,19 +319,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const expandIcon = card.querySelector('.expand-icon');
         
         if (details) {
-            // Initially hide details
+            // Set initial state
             details.style.maxHeight = '0';
             details.style.overflow = 'hidden';
             details.style.opacity = '0';
-            details.style.transition = 'max-height 0.4s ease-out, opacity 0.3s ease, padding 0.3s ease';
             details.style.paddingTop = '0';
+            details.style.transition = 'max-height 0.4s ease-out, opacity 0.3s ease, padding-top 0.3s ease';
             
-            // Single click handler for expand/collapse
+            // Single click handler for the entire card
             card.addEventListener('click', function(e) {
-                // Don't expand if clicking on a tech tag or game button
-                if (e.target.classList.contains('tech-tag') || 
-                    e.target.classList.contains('game-btn') ||
-                    e.target.closest('.game-btn')) return;
+                // Don't expand if clicking on a tech tag or link
+                if (e.target.classList.contains('tech-tag') || e.target.tagName === 'A') {
+                    return;
+                }
                 
                 e.preventDefault();
                 e.stopPropagation();
@@ -224,17 +364,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     // Expand
                     card.classList.add('expanded');
-                    details.style.maxHeight = details.scrollHeight + 50 + 'px';
+                    details.style.maxHeight = details.scrollHeight + 30 + 'px';
                     details.style.opacity = '1';
-                    details.style.paddingTop = '20px';
+                    details.style.paddingTop = '15px';
                     if (expandIcon) expandIcon.textContent = '▲';
                     
-                    // Scroll card into view smoothly
-                    setTimeout(() => {
-                        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }, 100);
-                    
-                    // Animate highlights if any
+                    // Animate list items if present
                     const highlights = details.querySelectorAll('.highlights-list li');
                     highlights.forEach((li, index) => {
                         li.style.opacity = '0';
@@ -245,6 +380,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             li.style.transform = 'translateX(0)';
                         }, index * 80);
                     });
+                    
+                    // Scroll into view if needed
+                    setTimeout(() => {
+                        const cardRect = card.getBoundingClientRect();
+                        if (cardRect.bottom > window.innerHeight) {
+                            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }, 100);
                 }
             });
         }
@@ -1009,10 +1152,12 @@ function openGame(gameType) {
         initWhackAMole(container);
     } else if (gameType === 'tic-tac-toe') {
         initTicTacToe(container);
-    } else if (gameType === 'memory-game') {
-        initMemoryGame(container);
-    } else if (gameType === 'snake-game') {
+    } else if (gameType === 'memory-match') {
+        initMemoryMatch(container);
+    } else if (gameType === 'snake') {
         initSnakeGame(container);
+    } else if (gameType === 'reaction-test') {
+        initReactionTest(container);
     }
 }
 
@@ -1233,8 +1378,8 @@ function initTicTacToe(container) {
 // ===================================
 // MEMORY MATCH GAME
 // ===================================
-function initMemoryGame(container) {
-    const emojis = ['🎮', '🎯', '🎪', '🎭', '🎨', '🎬', '🎸', '🎺'];
+function initMemoryMatch(container) {
+    const emojis = ['🚀', '💻', '🎮', '🎨', '🔥', '⚡', '🌟', '💎'];
     let cards = [...emojis, ...emojis];
     let flippedCards = [];
     let matchedPairs = 0;
@@ -1247,21 +1392,21 @@ function initMemoryGame(container) {
     container.innerHTML = `
         <div class="memory-game">
             <h3>🧠 Memory Match</h3>
-            <div class="game-stats">
+            <div class="memory-stats">
                 <span>Moves: <strong id="memoryMoves">0</strong></span>
                 <span>Pairs: <strong id="memoryPairs">0</strong>/8</span>
             </div>
-            <div class="memory-grid">
+            <div class="memory-board">
                 ${cards.map((emoji, i) => `
                     <div class="memory-card" data-index="${i}" data-emoji="${emoji}">
                         <div class="memory-card-inner">
-                            <div class="memory-card-front">❓</div>
+                            <div class="memory-card-front">?</div>
                             <div class="memory-card-back">${emoji}</div>
                         </div>
                     </div>
                 `).join('')}
             </div>
-            <button class="game-start-btn" id="memoryRestart">Restart Game</button>
+            <button class="game-restart-btn" id="memoryRestart">🔄 Restart</button>
         </div>
     `;
     
@@ -1277,9 +1422,9 @@ function initMemoryGame(container) {
         flippedCards.push(card);
         
         if (flippedCards.length === 2) {
+            canFlip = false;
             moves++;
             movesDisplay.textContent = moves;
-            canFlip = false;
             
             const [card1, card2] = flippedCards;
             
@@ -1298,7 +1443,7 @@ function initMemoryGame(container) {
                     }, 500);
                 }
             } else {
-                // No match - flip back
+                // No match
                 setTimeout(() => {
                     card1.classList.remove('flipped');
                     card2.classList.remove('flipped');
@@ -1325,7 +1470,10 @@ function initMemoryGame(container) {
         });
     }
     
-    cardElements.forEach(card => card.addEventListener('click', () => flipCard(card)));
+    cardElements.forEach(card => {
+        card.addEventListener('click', () => flipCard(card));
+    });
+    
     restartBtn.addEventListener('click', restartGame);
 }
 
@@ -1341,42 +1489,42 @@ function initSnakeGame(container) {
     let nextDirection = {x: 1, y: 0};
     let score = 0;
     let gameLoop = null;
-    let isPlaying = false;
+    let gameRunning = false;
     
     container.innerHTML = `
         <div class="snake-game">
             <h3>🐍 Snake Game</h3>
-            <div class="game-stats">
+            <div class="snake-stats">
                 <span>Score: <strong id="snakeScore">0</strong></span>
             </div>
             <canvas id="snakeCanvas" width="${gridSize * cellSize}" height="${gridSize * cellSize}"></canvas>
             <div class="snake-controls">
-                <p>Use Arrow Keys or WASD to move</p>
-                <button class="game-start-btn" id="snakeStartBtn">Start Game</button>
-            </div>
-            <div class="mobile-controls">
-                <button class="control-btn" data-dir="up">⬆️</button>
-                <div class="control-row">
-                    <button class="control-btn" data-dir="left">⬅️</button>
-                    <button class="control-btn" data-dir="down">⬇️</button>
-                    <button class="control-btn" data-dir="right">➡️</button>
+                <p>Use arrow keys or buttons to move</p>
+                <div class="snake-buttons">
+                    <button class="snake-btn" data-dir="up">⬆️</button>
+                    <div class="snake-btn-row">
+                        <button class="snake-btn" data-dir="left">⬅️</button>
+                        <button class="snake-btn" data-dir="down">⬇️</button>
+                        <button class="snake-btn" data-dir="right">➡️</button>
+                    </div>
                 </div>
             </div>
+            <button class="game-restart-btn" id="snakeStart">▶️ Start Game</button>
         </div>
     `;
     
     const canvas = container.querySelector('#snakeCanvas');
     const ctx = canvas.getContext('2d');
     const scoreDisplay = container.querySelector('#snakeScore');
-    const startBtn = container.querySelector('#snakeStartBtn');
-    const controlBtns = container.querySelectorAll('.control-btn');
+    const startBtn = container.querySelector('#snakeStart');
+    const dirButtons = container.querySelectorAll('.snake-btn');
     
     function draw() {
         // Clear canvas
         ctx.fillStyle = '#1a1a2e';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        // Draw grid lines
+        // Draw grid
         ctx.strokeStyle = '#2a2a4e';
         for (let i = 0; i <= gridSize; i++) {
             ctx.beginPath();
@@ -1397,27 +1545,14 @@ function initSnakeGame(container) {
         
         // Draw snake
         snake.forEach((segment, index) => {
-            ctx.fillStyle = index === 0 ? '#00ffff' : '#00cc99';
+            ctx.fillStyle = index === 0 ? '#00d4ff' : '#00a8cc';
             ctx.fillRect(segment.x * cellSize + 1, segment.y * cellSize + 1, cellSize - 2, cellSize - 2);
         });
     }
     
-    function placeFood() {
-        do {
-            food = {
-                x: Math.floor(Math.random() * gridSize),
-                y: Math.floor(Math.random() * gridSize)
-            };
-        } while (snake.some(s => s.x === food.x && s.y === food.y));
-    }
-    
     function update() {
         direction = {...nextDirection};
-        
-        const head = {
-            x: snake[0].x + direction.x,
-            y: snake[0].y + direction.y
-        };
+        const head = {x: snake[0].x + direction.x, y: snake[0].y + direction.y};
         
         // Check wall collision
         if (head.x < 0 || head.x >= gridSize || head.y < 0 || head.y >= gridSize) {
@@ -1426,7 +1561,7 @@ function initSnakeGame(container) {
         }
         
         // Check self collision
-        if (snake.some(s => s.x === head.x && s.y === head.y)) {
+        if (snake.some(seg => seg.x === head.x && seg.y === head.y)) {
             gameOver();
             return;
         }
@@ -1445,75 +1580,172 @@ function initSnakeGame(container) {
         draw();
     }
     
+    function placeFood() {
+        do {
+            food = {
+                x: Math.floor(Math.random() * gridSize),
+                y: Math.floor(Math.random() * gridSize)
+            };
+        } while (snake.some(seg => seg.x === food.x && seg.y === food.y));
+    }
+    
     function gameOver() {
         clearInterval(gameLoop);
-        isPlaying = false;
-        startBtn.textContent = `Game Over! Score: ${score} - Play Again`;
-        startBtn.disabled = false;
+        gameRunning = false;
+        startBtn.textContent = '🔄 Restart';
+        alert(`Game Over! Score: ${score}`);
     }
     
     function startGame() {
-        if (isPlaying) return;
-        
         snake = [{x: 7, y: 7}];
         direction = {x: 1, y: 0};
         nextDirection = {x: 1, y: 0};
         score = 0;
         scoreDisplay.textContent = '0';
-        isPlaying = true;
-        startBtn.textContent = 'Playing...';
-        startBtn.disabled = true;
-        
         placeFood();
         draw();
         
+        if (gameLoop) clearInterval(gameLoop);
         gameLoop = setInterval(update, 150);
+        gameRunning = true;
+        startBtn.textContent = '⏸️ Playing...';
     }
     
-    function setDirection(newDir) {
+    function setDirection(dir) {
+        if (!gameRunning) return;
         const dirs = {
             up: {x: 0, y: -1},
             down: {x: 0, y: 1},
             left: {x: -1, y: 0},
             right: {x: 1, y: 0}
         };
-        
-        if (!dirs[newDir]) return;
-        
-        const newDirection = dirs[newDir];
-        // Prevent reversing direction
-        if (newDirection.x !== -direction.x || newDirection.y !== -direction.y) {
-            nextDirection = newDirection;
+        const newDir = dirs[dir];
+        // Prevent reverse direction
+        if (newDir.x !== -direction.x || newDir.y !== -direction.y) {
+            nextDirection = newDir;
         }
     }
     
     // Keyboard controls
     document.addEventListener('keydown', (e) => {
-        if (!isPlaying) return;
-        
         const keyMap = {
-            'ArrowUp': 'up', 'w': 'up', 'W': 'up',
-            'ArrowDown': 'down', 's': 'down', 'S': 'down',
-            'ArrowLeft': 'left', 'a': 'left', 'A': 'left',
-            'ArrowRight': 'right', 'd': 'right', 'D': 'right'
+            ArrowUp: 'up', ArrowDown: 'down',
+            ArrowLeft: 'left', ArrowRight: 'right'
         };
-        
         if (keyMap[e.key]) {
             e.preventDefault();
             setDirection(keyMap[e.key]);
         }
     });
     
-    // Mobile controls
-    controlBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (isPlaying) {
-                setDirection(btn.dataset.dir);
-            }
-        });
+    // Button controls
+    dirButtons.forEach(btn => {
+        btn.addEventListener('click', () => setDirection(btn.dataset.dir));
     });
     
     startBtn.addEventListener('click', startGame);
-    draw(); // Initial draw
+    draw();
 }
 
+// ===================================
+// REACTION TEST GAME
+// ===================================
+function initReactionTest(container) {
+    let gameState = 'waiting'; // waiting, ready, clicked
+    let startTime = 0;
+    let timeoutId = null;
+    let results = [];
+    
+    container.innerHTML = `
+        <div class="reaction-game">
+            <h3>⚡ Reaction Test</h3>
+            <div class="reaction-instructions">
+                <p>Click the box when it turns <span style="color: #00ff88;">GREEN</span></p>
+            </div>
+            <div class="reaction-box" id="reactionBox">
+                <span>Click to Start</span>
+            </div>
+            <div class="reaction-results" id="reactionResults">
+                <p>Best: <strong id="bestTime">--</strong> ms</p>
+                <p>Average: <strong id="avgTime">--</strong> ms</p>
+                <p>Tries: <strong id="tryCount">0</strong>/5</p>
+            </div>
+        </div>
+    `;
+    
+    const box = container.querySelector('#reactionBox');
+    const bestDisplay = container.querySelector('#bestTime');
+    const avgDisplay = container.querySelector('#avgTime');
+    const tryDisplay = container.querySelector('#tryCount');
+    
+    function startWaiting() {
+        gameState = 'waiting';
+        box.className = 'reaction-box waiting';
+        box.innerHTML = '<span>Wait for green...</span>';
+        
+        const delay = Math.random() * 3000 + 1500; // 1.5-4.5 seconds
+        timeoutId = setTimeout(() => {
+            gameState = 'ready';
+            box.className = 'reaction-box ready';
+            box.innerHTML = '<span>CLICK NOW!</span>';
+            startTime = Date.now();
+        }, delay);
+    }
+    
+    function handleClick() {
+        if (gameState === 'waiting') {
+            // Too early!
+            clearTimeout(timeoutId);
+            box.className = 'reaction-box too-early';
+            box.innerHTML = '<span>Too early! 😅<br>Click to try again</span>';
+            gameState = 'clicked';
+        } else if (gameState === 'ready') {
+            // Valid click
+            const reactionTime = Date.now() - startTime;
+            results.push(reactionTime);
+            tryDisplay.textContent = results.length;
+            
+            // Update best time
+            const best = Math.min(...results);
+            bestDisplay.textContent = best;
+            
+            // Update average
+            const avg = Math.round(results.reduce((a, b) => a + b, 0) / results.length);
+            avgDisplay.textContent = avg;
+            
+            let message = '';
+            if (reactionTime < 200) message = '🚀 Incredible!';
+            else if (reactionTime < 250) message = '⚡ Amazing!';
+            else if (reactionTime < 300) message = '🔥 Great!';
+            else if (reactionTime < 400) message = '👍 Good!';
+            else message = '😊 Keep practicing!';
+            
+            box.className = 'reaction-box result';
+            box.innerHTML = `<span>${reactionTime} ms<br>${message}<br><small>Click to continue</small></span>`;
+            gameState = 'clicked';
+            
+            if (results.length >= 5) {
+                setTimeout(() => {
+                    alert(`🎉 Final Results!\nBest: ${best}ms\nAverage: ${avg}ms`);
+                    results = [];
+                    tryDisplay.textContent = '0';
+                    bestDisplay.textContent = '--';
+                    avgDisplay.textContent = '--';
+                }, 500);
+            }
+        } else {
+            // Start new round
+            startWaiting();
+        }
+    }
+    
+    box.addEventListener('click', handleClick);
+    
+    // Initial state
+    box.className = 'reaction-box idle';
+    box.innerHTML = '<span>Click to Start</span>';
+    box.addEventListener('click', function initialClick() {
+        box.removeEventListener('click', initialClick);
+        startWaiting();
+    }, { once: true });
+}

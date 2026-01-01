@@ -120,17 +120,9 @@
             <h1 class="hero-name">Surya Kant</h1>
             <h2 class="hero-title">
                 <span class="title-prefix glitch-text" data-text="I'm">I'm </span>
-                <span class="rotating-text-container">
-                    <span class="rotating-text">
-                        <span class="rotating-text-item">Senior Java Backend Developer</span>
-                        <span class="rotating-text-item">Microservices Architect</span>
-                        <span class="rotating-text-item">System Design Enthusiast</span>
-                        <span class="rotating-text-item">CDAC Graduate</span>
-                        <span class="rotating-text-item">Problem Solver</span>
-                        <span class="rotating-text-item">Tech Explorer</span>
-                    </span>
+                <span class="glitch-role-container">
+                    <span class="glitch-role" id="glitchRole" data-text="Senior Java Backend Developer" data-roles='["Senior Java Backend Developer", "Microservices Architect", "System Design Enthusiast", "CDAC Graduate", "Problem Solver", "Tech Explorer"]'>Senior Java Backend Developer</span>
                 </span>
-                <span class="typing-cursor">|</span>
             </h2>
             <p class="hero-description">
                 Building scalable, high-performance microservices and distributed systems. 
@@ -607,13 +599,17 @@
                             <span class="game-icon">⭕</span>
                             <span>Tic-Tac-Toe</span>
                         </button>
-                        <button class="game-btn" onclick="openGame('memory-game')">
+                        <button class="game-btn" onclick="openGame('memory-match')">
                             <span class="game-icon">🧠</span>
                             <span>Memory Match</span>
                         </button>
-                        <button class="game-btn" onclick="openGame('snake-game')">
+                        <button class="game-btn" onclick="openGame('snake')">
                             <span class="game-icon">🐍</span>
                             <span>Snake</span>
+                        </button>
+                        <button class="game-btn" onclick="openGame('reaction-test')">
+                            <span class="game-icon">⚡</span>
+                            <span>Reaction Test</span>
                         </button>
                     </div>
                 </div>
